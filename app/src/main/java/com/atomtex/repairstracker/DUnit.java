@@ -2,9 +2,8 @@ package com.atomtex.repairstracker;
 
 import java.util.Date;
 
-import static com.atomtex.repairstracker.MainViewModel.REPAIR_TYPE;
-import static com.atomtex.repairstracker.MainViewModel.SERIAL_TYPE;
-
+import static com.atomtex.repairstracker.Constant.REPAIR_TYPE;
+import static com.atomtex.repairstracker.Constant.SERIAL_TYPE;
 
 public class DUnit {
 
