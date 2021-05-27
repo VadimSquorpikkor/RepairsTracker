@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">RepairsTracker</string>
     <string name="app_logo">Логотип приложения</string>
+    <string name="nothing_found">Ничего не найдено</string>
+    <string name="serial_number">Серийный номер</string>
+    <string name="find_number">Найти</string>
 
 </resources>

@@ -260,6 +260,9 @@ class FireDBHelper {
                 });
     }
 
+    //TODO Сделать getUnitListByParam только по серийному номеру, исё равно других вариантов не будет, только лишние параметры
+
+    //TODO !!! УДАЛИТЬ лишние сеттеры !!! (unit.setEmployee(например String.valueOf(document.get(UNIT_EMPLOYEE))); НЕ НУЖЕН, ответственные не будут отображаться в этом приложении!)
     void getUnitListByParam(MutableLiveData<ArrayList<DUnit>> unitList, String param1, String value1, String param2, String value2, String param3, String value3, String param4, String value4, String param5, String value5, String param6, String value6) {
         Query query = db.collection(TABLE_UNITS);
         if (!value1.equals(ANY_VALUE)) query = query.whereEqualTo(param1, value1);
@@ -272,8 +275,10 @@ class FireDBHelper {
         query.get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        Log.e(TAG, "task.isSuccessful");
                         QuerySnapshot querySnapshot = task.getResult();
                         if (querySnapshot == null) return;
+                        Log.e(TAG, "querySnapshot NOT null");
                         ArrayList<DUnit> list = new ArrayList<>();
                         for (DocumentSnapshot document : task.getResult()) {
                             DUnit unit = new DUnit();
@@ -283,6 +288,7 @@ class FireDBHelper {
                             unit.setId(String.valueOf(document.get(UNIT_ID)));
                             unit.setInnerSerial(String.valueOf(document.get(UNIT_INNER_SERIAL)));
                             unit.setLocation(String.valueOf(document.get(UNIT_LOCATION)));
+                            Log.e(TAG, "unit.getLocation: "+unit.getLocation());
                             unit.setSerial(String.valueOf(document.get(UNIT_SERIAL)));
                             unit.setState(String.valueOf(document.get(UNIT_STATE)));
                             unit.setType(String.valueOf(document.get(UNIT_TYPE)));
