@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static com.atomtex.repairstracker.Constant.TAG;
 import static com.atomtex.repairstracker.ThemeUtils.THEME_DARK;
 import static com.atomtex.repairstracker.ThemeUtils.THEME_LIGHT;
 import static com.atomtex.repairstracker.ThemeUtils.getTheme;
-
 
 public class MainFragment extends Fragment {
 
@@ -47,8 +48,8 @@ public class MainFragment extends Fragment {
 
         logoImage = view.findViewById(R.id.logo_image);
 
-        final MutableLiveData<ArrayList<DUnit>> units = mViewModel.getRepairUnitList();
-        units.observe(requireActivity(), this::updateFoundRecycler);
+        final MutableLiveData<ArrayList<DUnit>> units = mViewModel.getUnitListToObserve();
+        units.observe(getViewLifecycleOwner(), this::updateFoundRecycler);
 
         themeSwitch = view.findViewById(R.id.theme_switch);
         themeSwitch.setChecked(getTheme()==2);
@@ -71,6 +72,7 @@ public class MainFragment extends Fragment {
     }
 
     private void updateFoundRecycler(ArrayList<DUnit> list) {
+        if (list == null) return;
         if (list.size() == 0) {
             logoImage.setVisibility(View.VISIBLE);
             Toast.makeText(getActivity(), getString(R.string.nothing_found), Toast.LENGTH_SHORT).show();

@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import org.jetbrains.annotations.NotNull;
-import static com.atomtex.repairstracker.Constant.ANY_VALUE;
-import static com.atomtex.repairstracker.Constant.REPAIR_TYPE;
 
 public class SearchUnitParamsDialog extends BaseDialog {
 
@@ -32,7 +30,7 @@ public class SearchUnitParamsDialog extends BaseDialog {
 
     private void startSearch() {
         String serial = serialEdit.getText().toString();
-        mViewModel.getUnitListFromBD(ANY_VALUE, ANY_VALUE, ANY_VALUE, REPAIR_TYPE, ANY_VALUE, serial);
+        mViewModel.addUnitToObserveCollection(serial);
         dismiss();
     }
 

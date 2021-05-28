@@ -1,7 +1,6 @@
 package com.atomtex.repairstracker;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
@@ -16,19 +15,12 @@ import static com.atomtex.repairstracker.Constant.STATE_ID;
 import static com.atomtex.repairstracker.Constant.STATE_NAME;
 import static com.atomtex.repairstracker.Constant.TABLE_DEVICES;
 import static com.atomtex.repairstracker.Constant.TABLE_STATES;
-import static com.atomtex.repairstracker.Constant.TAG;
-import static com.atomtex.repairstracker.Constant.UNIT_DEVICE;
-import static com.atomtex.repairstracker.Constant.UNIT_EMPLOYEE;
-import static com.atomtex.repairstracker.Constant.UNIT_LOCATION;
-import static com.atomtex.repairstracker.Constant.UNIT_SERIAL;
-import static com.atomtex.repairstracker.Constant.UNIT_STATE;
-import static com.atomtex.repairstracker.Constant.UNIT_TYPE;
 
 public class MainViewModel extends AndroidViewModel {
 
     private final FireDBHelper dbh;
 //--------------------------------------------------------------------------------------------------
-    private final MutableLiveData<ArrayList<DUnit>> repairUnitList;
+    private final MutableLiveData<ArrayList<DUnit>> unitListToObserve;
 
     private final MutableLiveData<ArrayList<String>> allStatesIdList;
     private final MutableLiveData<ArrayList<String>> allStatesNameList;
@@ -40,8 +32,8 @@ public class MainViewModel extends AndroidViewModel {
     private final MutableLiveData<ArrayList<String>> locationNamesList;
 
 //--------------------------------------------------------------------------------------------------
-    public MutableLiveData<ArrayList<DUnit>> getRepairUnitList() {
-        return repairUnitList;
+    public MutableLiveData<ArrayList<DUnit>> getUnitListToObserve() {
+        return unitListToObserve;
     }
 
     public MutableLiveData<ArrayList<String>> getAllStatesIdList() {
@@ -80,7 +72,7 @@ public class MainViewModel extends AndroidViewModel {
     public MainViewModel(@NonNull @NotNull Application application) {
         super(application);
         dbh = new FireDBHelper();
-        repairUnitList = new MutableLiveData<>();
+        unitListToObserve = new MutableLiveData<>();
         allStatesIdList = new MutableLiveData<>();
         allStatesNameList = new MutableLiveData<>();
         deviceIdList = new MutableLiveData<>();
@@ -89,6 +81,8 @@ public class MainViewModel extends AndroidViewModel {
         repairStatesNames = new MutableLiveData<>();
         locationIdList = new MutableLiveData<>();
         locationNamesList = new MutableLiveData<>();
+
+        initializeObserveList();
 
         addAllStatesListener();
         addDeviceNameListener();
@@ -114,17 +108,23 @@ public class MainViewModel extends AndroidViewModel {
         dbh.addStringArrayListener(TABLE_DEVICES, deviceIdList, DEVICE_ID);
     }
 
+//--------------------------------------------------------------------------------------------------
 
-
-
-    /**По выбранным параметрам получает из БД список юнитов*/
-    public void getUnitListFromBD(String deviceName, String location, String employee, String type, String state, String serial) {
-        Log.e(TAG, "♦ deviceName - "+deviceName+" location - "+location+" employee - "+employee+" type - "+type);
-        dbh.getUnitListByParam(repairUnitList, UNIT_DEVICE, deviceName, UNIT_LOCATION, location, UNIT_EMPLOYEE, employee, UNIT_TYPE, type, UNIT_STATE, state, UNIT_SERIAL, serial);
+    void initializeObserveList() {
+        ArrayList<DUnit> list = new ArrayList<>();
+        unitListToObserve.setValue(list);
     }
 
     public void openAddDeviceDialog(FragmentManager fragmentManager) {
         SearchUnitParamsDialog dialog = new SearchUnitParamsDialog();
         dialog.show(fragmentManager, null);
     }
+
+    /**
+     * Метод получает серийный номер юнита и проверяет наличие в БД. Если такой есть, то добавляет
+     * юнит в коллекцию отслеживаемых программой юнитов */
+    public void addUnitToObserveCollection(String serial) {
+        dbh.getUnitBySerialAndAddToList(unitListToObserve, serial);
+    }
+
 }

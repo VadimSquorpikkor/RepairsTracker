@@ -24,6 +24,7 @@ import static com.atomtex.repairstracker.Constant.EVENT_DESCRIPTION;
 import static com.atomtex.repairstracker.Constant.EVENT_LOCATION;
 import static com.atomtex.repairstracker.Constant.EVENT_STATE;
 import static com.atomtex.repairstracker.Constant.EVENT_UNIT;
+import static com.atomtex.repairstracker.Constant.REPAIR_TYPE;
 import static com.atomtex.repairstracker.Constant.STATE_ID;
 import static com.atomtex.repairstracker.Constant.STATE_LOCATION;
 import static com.atomtex.repairstracker.Constant.STATE_NAME;
@@ -258,6 +259,47 @@ class FireDBHelper {
                         Log.e(TAG, "Error getting documents: ", task.getException());
                     }
                 });
+    }
+
+    void getUnitBySerialAndAddToList(MutableLiveData<ArrayList<DUnit>> unitList, String serial) {
+        Query query = db.collection(TABLE_UNITS).whereEqualTo(UNIT_SERIAL, serial);
+
+        query.get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        if (querySnapshot == null) return;
+                        if (unitList==null||unitList.getValue()==null)return;
+                        ArrayList<DUnit> list = new ArrayList<>(unitList.getValue());
+                        for (DocumentSnapshot document : task.getResult()) {
+                            DUnit unit = new DUnit();
+                            unit.setDescription(String.valueOf(document.get(UNIT_DESCRIPTION)));
+                            unit.setName(String.valueOf(document.get(UNIT_DEVICE)));
+                            unit.setEmployee(String.valueOf(document.get(UNIT_EMPLOYEE)));
+                            unit.setId(String.valueOf(document.get(UNIT_ID)));
+                            unit.setInnerSerial(String.valueOf(document.get(UNIT_INNER_SERIAL)));
+                            unit.setLocation(String.valueOf(document.get(UNIT_LOCATION)));
+                            unit.setSerial(String.valueOf(document.get(UNIT_SERIAL)));
+                            unit.setState(String.valueOf(document.get(UNIT_STATE)));
+                            unit.setType(String.valueOf(document.get(UNIT_TYPE)));
+                            Timestamp timestamp = (Timestamp) document.get(UNIT_DATE);
+                            if (timestamp!=null)unit.setDate(timestamp.toDate());
+                            list.add(unit);
+                        }
+                        unitList.setValue(list);
+                    } else {
+                        Log.e(TAG, "Error getting documents: ", task.getException());
+                    }
+                });
+    }
+
+    void getRepairUnitListBySerial(MutableLiveData<ArrayList<DUnit>> unitList, String serial) {
+        getUnitListByParam(unitList, UNIT_DEVICE, ANY_VALUE,
+                UNIT_LOCATION, ANY_VALUE,
+                UNIT_EMPLOYEE, ANY_VALUE,
+                UNIT_TYPE, REPAIR_TYPE,
+                UNIT_STATE, ANY_VALUE,
+                UNIT_SERIAL, serial);
     }
 
     //TODO Сделать getUnitListByParam только по серийному номеру, исё равно других вариантов не будет, только лишние параметры
