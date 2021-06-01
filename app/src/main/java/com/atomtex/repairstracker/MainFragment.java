@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +16,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-
-import static com.atomtex.repairstracker.Constant.TAG;
 import static com.atomtex.repairstracker.ThemeUtils.THEME_DARK;
 import static com.atomtex.repairstracker.ThemeUtils.THEME_LIGHT;
 import static com.atomtex.repairstracker.ThemeUtils.getTheme;
@@ -85,7 +82,7 @@ public class MainFragment extends Fragment {
         foundUnitRecycler.setAdapter(unitAdapter);
     }
 
-    private void showEvents(int i) {
-
+    private void showEvents(int position) {
+        mViewModel.showEvents(position, requireActivity().getSupportFragmentManager());
     }
 }

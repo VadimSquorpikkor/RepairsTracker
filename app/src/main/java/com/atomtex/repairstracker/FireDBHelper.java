@@ -282,11 +282,13 @@ class FireDBHelper {
                             unit.setSerial(String.valueOf(document.get(UNIT_SERIAL)));
                             unit.setState(String.valueOf(document.get(UNIT_STATE)));
                             unit.setType(String.valueOf(document.get(UNIT_TYPE)));
+                            //getEventsFromDBForUnit(unit);
                             Timestamp timestamp = (Timestamp) document.get(UNIT_DATE);
                             if (timestamp!=null)unit.setDate(timestamp.toDate());
                             list.add(unit);
                         }
                         unitList.setValue(list);
+
                     } else {
                         Log.e(TAG, "Error getting documents: ", task.getException());
                     }
@@ -445,6 +447,7 @@ class FireDBHelper {
                     }
                 });
     }
+
 
     /**
      * Получение MutableLiveData<ArrayList<String>> из БД по 2-м параметрам

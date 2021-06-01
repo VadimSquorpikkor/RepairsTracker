@@ -11,9 +11,12 @@ import java.util.ArrayList;
 
 import static com.atomtex.repairstracker.Constant.DEVICE_ID;
 import static com.atomtex.repairstracker.Constant.DEVICE_NAME;
+import static com.atomtex.repairstracker.Constant.LOCATION_ID;
+import static com.atomtex.repairstracker.Constant.LOCATION_NAME;
 import static com.atomtex.repairstracker.Constant.STATE_ID;
 import static com.atomtex.repairstracker.Constant.STATE_NAME;
 import static com.atomtex.repairstracker.Constant.TABLE_DEVICES;
+import static com.atomtex.repairstracker.Constant.TABLE_LOCATIONS;
 import static com.atomtex.repairstracker.Constant.TABLE_STATES;
 
 public class MainViewModel extends AndroidViewModel {
@@ -31,6 +34,8 @@ public class MainViewModel extends AndroidViewModel {
     private final MutableLiveData<ArrayList<String>> locationIdList;
     private final MutableLiveData<ArrayList<String>> locationNamesList;
 
+    private final  MutableLiveData<DUnit> selectedUnit;
+    private final  MutableLiveData<ArrayList<DEvent>> eventsForSelectedUnit;
 //--------------------------------------------------------------------------------------------------
     public MutableLiveData<ArrayList<DUnit>> getUnitListToObserve() {
         return unitListToObserve;
@@ -68,7 +73,15 @@ public class MainViewModel extends AndroidViewModel {
         return locationNamesList;
     }
 
-//--------------------------------------------------------------------------------------------------
+    public MutableLiveData<DUnit> getSelectedUnit() {
+        return selectedUnit;
+    }
+
+    public MutableLiveData<ArrayList<DEvent>> getEventsForSelectedUnit() {
+        return eventsForSelectedUnit;
+    }
+
+    //--------------------------------------------------------------------------------------------------
     public MainViewModel(@NonNull @NotNull Application application) {
         super(application);
         dbh = new FireDBHelper();
@@ -81,12 +94,16 @@ public class MainViewModel extends AndroidViewModel {
         repairStatesNames = new MutableLiveData<>();
         locationIdList = new MutableLiveData<>();
         locationNamesList = new MutableLiveData<>();
+        selectedUnit = new MutableLiveData<>();
+        eventsForSelectedUnit = new MutableLiveData<>();
 
         initializeObserveList();
 
         addAllStatesListener();
         addDeviceNameListener();
         addDeviceIdListener();
+        addLocationIdListener();
+        addLocationNamesListener();
     }
 //----- LISTENERS ----------------------------------------------------------------------------------
 
@@ -108,6 +125,14 @@ public class MainViewModel extends AndroidViewModel {
         dbh.addStringArrayListener(TABLE_DEVICES, deviceIdList, DEVICE_ID);
     }
 
+    void addLocationNamesListener() {
+        dbh.addStringArrayListener(TABLE_LOCATIONS, locationNamesList, LOCATION_NAME);
+    }
+
+    void addLocationIdListener() {
+        dbh.addStringArrayListener(TABLE_LOCATIONS, locationIdList, LOCATION_ID);
+    }
+
 //--------------------------------------------------------------------------------------------------
 
     void initializeObserveList() {
@@ -125,6 +150,15 @@ public class MainViewModel extends AndroidViewModel {
      * юнит в коллекцию отслеживаемых программой юнитов */
     public void addUnitToObserveCollection(String serial) {
         dbh.getUnitBySerialAndAddToList(unitListToObserve, serial);
+
     }
 
+    public void showEvents(int position, FragmentManager fragmentManager) {
+        selectedUnit.setValue(unitListToObserve.getValue().get(position));
+        dbh.getEventsFromDB(selectedUnit.getValue().getId(), eventsForSelectedUnit);
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, InfoFragment.newInstance())
+                .addToBackStack(null)
+                .commit();
+    }
 }

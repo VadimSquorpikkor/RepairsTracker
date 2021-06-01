@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,6 +55,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.DUnitViewHolde
         String state = getNameById(unit.getState(), mViewModel.getAllStatesNameList().getValue(), Objects.requireNonNull(mViewModel.getAllStatesIdList().getValue()));
         String name = getNameById(unit.getName(), mViewModel.getDeviceNameList().getValue(), Objects.requireNonNull(mViewModel.getDeviceIdList().getValue()));
 
+
         holder.tState.setText(state);
         holder.tName.setText(name);
         holder.tSerial.setText(String.format("№ %s", Utils.getRightValue(unit.getSerial())));
@@ -99,10 +99,15 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.DUnitViewHolde
 
             //для работы OnNoteClickListener
             itemView.setOnClickListener(view -> {
+//                state = !state;
+//                if (state) Log.e(TAG, "☻ГРУЗИМ "+getAdapterPosition());
+//                else Log.e(TAG, "☻СВОРАЧИВАЕМСЯ!");
+
                 if (onItemClickListener != null) {
-                    onItemClickListener.onItemClick(getAdapterPosition());
+                    onItemClickListener.onItemClick(DUnitViewHolder.this.getAdapterPosition());
                 }
             });
+
         }
     }
 }
