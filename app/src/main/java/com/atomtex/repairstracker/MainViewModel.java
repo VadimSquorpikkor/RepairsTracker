@@ -29,8 +29,8 @@ public class MainViewModel extends AndroidViewModel {
     private final MutableLiveData<ArrayList<String>> allStatesNameList;
     private final MutableLiveData<ArrayList<String>> deviceIdList;
     private final MutableLiveData<ArrayList<String>> deviceNameList;
-    private final MutableLiveData<ArrayList<String>> repairStateIdList;
-    private final MutableLiveData<ArrayList<String>> repairStatesNames;
+//    private final MutableLiveData<ArrayList<String>> repairStateIdList;
+//    private final MutableLiveData<ArrayList<String>> repairStatesNames;
     private final MutableLiveData<ArrayList<String>> locationIdList;
     private final MutableLiveData<ArrayList<String>> locationNamesList;
 
@@ -57,13 +57,13 @@ public class MainViewModel extends AndroidViewModel {
         return deviceNameList;
     }
 
-    public MutableLiveData<ArrayList<String>> getRepairStateIdList() {
-        return repairStateIdList;
-    }
+//    public MutableLiveData<ArrayList<String>> getRepairStateIdList() {
+//        return repairStateIdList;
+//    }
 
-    public MutableLiveData<ArrayList<String>> getRepairStatesNames() {
-        return repairStatesNames;
-    }
+//    public MutableLiveData<ArrayList<String>> getRepairStatesNames() {
+//        return repairStatesNames;
+//    }
 
     public MutableLiveData<ArrayList<String>> getLocationIdList() {
         return locationIdList;
@@ -90,8 +90,8 @@ public class MainViewModel extends AndroidViewModel {
         allStatesNameList = new MutableLiveData<>();
         deviceIdList = new MutableLiveData<>();
         deviceNameList = new MutableLiveData<>();
-        repairStateIdList = new MutableLiveData<>();
-        repairStatesNames = new MutableLiveData<>();
+//        repairStateIdList = new MutableLiveData<>();
+//        repairStatesNames = new MutableLiveData<>();
         locationIdList = new MutableLiveData<>();
         locationNamesList = new MutableLiveData<>();
         selectedUnit = new MutableLiveData<>();
@@ -154,6 +154,7 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     public void showEvents(int position, FragmentManager fragmentManager) {
+        if (unitListToObserve.getValue()==null||selectedUnit.getValue()==null)return;
         selectedUnit.setValue(unitListToObserve.getValue().get(position));
         dbh.getEventsFromDB(selectedUnit.getValue().getId(), eventsForSelectedUnit);
         fragmentManager.beginTransaction()

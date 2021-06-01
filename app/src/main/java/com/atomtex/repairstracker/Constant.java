@@ -1,5 +1,6 @@
 package com.atomtex.repairstracker;
 
+@SuppressWarnings("unused")
 public class Constant {
     public static final String TAG = "tag";
 

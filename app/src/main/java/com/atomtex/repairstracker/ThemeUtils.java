@@ -47,6 +47,7 @@ class ThemeUtils {
         return value;
     }
 
+    @SuppressWarnings("SameParameterValue")
     static void saveParam(String key, int param, Activity activity) {
         SharedPreferences mPreferences;
         mPreferences = activity.getPreferences(Context.MODE_PRIVATE);

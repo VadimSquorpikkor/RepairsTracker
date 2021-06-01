@@ -14,11 +14,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.atomtex.repairstracker.Constant.ANY_VALUE;
-import static com.atomtex.repairstracker.Constant.EVENT_CLOSE_DATE;
 import static com.atomtex.repairstracker.Constant.EVENT_DATE;
 import static com.atomtex.repairstracker.Constant.EVENT_DESCRIPTION;
 import static com.atomtex.repairstracker.Constant.EVENT_LOCATION;
@@ -53,49 +50,6 @@ class FireDBHelper {
         db = FirebaseFirestore.getInstance();
     }
 
-    /**Добавляет документ в БД. Если документ не существует, он будет создан. Если документ существует,
-     * его содержимое будет перезаписано вновь предоставленными данными */
-    //todo переделать на update, если документ существует
-    void addUnitToDB(DUnit unit) {
-        Map<String, Object> data = new HashMap<>();
-        data.put(UNIT_DESCRIPTION, unit.getDescription());
-        data.put(UNIT_DEVICE, unit.getName());
-        data.put(UNIT_EMPLOYEE, unit.getEmployee());
-        data.put(UNIT_ID, unit.getId());
-        data.put(UNIT_INNER_SERIAL, unit.getInnerSerial());
-        data.put(UNIT_LOCATION, unit.getLocation());
-        data.put(UNIT_SERIAL, unit.getSerial());
-        data.put(UNIT_STATE, unit.getState());
-        data.put(UNIT_TYPE, unit.getType());
-        data.put(UNIT_DATE, unit.getDate());
-        db.collection(TABLE_UNITS)
-                .document(unit.getId())
-//                .update(data)
-                .set(data)
-                .addOnSuccessListener(aVoid -> Log.e(TAG, "DocumentSnapshot successfully written!"))
-                .addOnFailureListener(e -> Log.e(TAG, "Error writing document", e));
-    }
-
-    /**Добавление нового события в БД*/
-    void addEventToDB(Date date, String state, String description, String unit_id, String location_id) {
-        Map<String, Object> data = new HashMap<>();
-        data.put(EVENT_DATE, date);
-        data.put(EVENT_STATE, state);
-        data.put(EVENT_DESCRIPTION, description);
-        data.put(EVENT_UNIT, unit_id);
-        data.put(EVENT_LOCATION, location_id);
-        db.collection(TABLE_EVENTS)
-                .document()
-                .set(data)
-                .addOnSuccessListener(aVoid -> Log.e(TAG, "DocumentSnapshot successfully written!"))
-                .addOnFailureListener(e -> Log.e(TAG, "Error writing document", e));
-    }
-
-    /**Добавляет к ивенту дату закрытия события. Дата закрытия — это сегодняшняя дата*/
-    void closeEvent(String event_id) {
-        db.collection(TABLE_EVENTS).document(event_id).update(EVENT_CLOSE_DATE, new Date());
-    }
-
     @SuppressWarnings("SameParameterValue")
     void addStringArrayListener(String table, MutableLiveData<ArrayList<String>> mList, String fieldName) {
         Log.e(TAG, "addStringArrayListener: ");
@@ -105,131 +59,11 @@ class FireDBHelper {
         });
     }
 
-    void addStringArrayOrderedListener(String table, MutableLiveData<ArrayList<String>> mList, String fieldName, String orderBy) {
-        Log.e(TAG, "addStringArrayListenerOrdered: ");
-        db.collection(table).addSnapshotListener((queryDocumentSnapshots, error) -> {
-            getStringArrayFromDBOrdered(table, mList, fieldName, orderBy);
-        });
-    }
-
-
-    void getUnitById(String id, MutableLiveData<DUnit> selectedUnit) {
-        db.collection(TABLE_UNITS)
-                .whereEqualTo(UNIT_ID, id)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        QuerySnapshot querySnapshot = task.getResult();
-                        if (querySnapshot == null || querySnapshot.size() == 0) return;
-//                        selectedUnits.setValue((ArrayList<DUnit>) querySnapshot.toObjects(DUnit.class));
-                        DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
-                        DUnit unit = new DUnit();
-                        unit.setDescription(String.valueOf(documentSnapshot.get(UNIT_DESCRIPTION)));
-                        unit.setName(String.valueOf(documentSnapshot.get(UNIT_DEVICE)));
-                        unit.setEmployee(String.valueOf(documentSnapshot.get(UNIT_EMPLOYEE)));
-                        unit.setId(String.valueOf(documentSnapshot.get(UNIT_ID)));
-                        unit.setInnerSerial(String.valueOf(documentSnapshot.get(UNIT_INNER_SERIAL)));
-                        unit.setLocation(String.valueOf(documentSnapshot.get(UNIT_LOCATION)));
-                        unit.setSerial(String.valueOf(documentSnapshot.get(UNIT_SERIAL)));
-                        unit.setState(String.valueOf(documentSnapshot.get(UNIT_STATE)));
-                        unit.setType(String.valueOf(documentSnapshot.get(UNIT_TYPE)));
-                        Timestamp timestamp = (Timestamp) documentSnapshot.get(UNIT_DATE);
-                        if (timestamp!=null)unit.setDate(timestamp.toDate());
-                        selectedUnit.setValue(unit);
-
-                    } else {
-                        Log.e(TAG, "Error getting documents: ", task.getException());
-                    }
-                });
-    }
-
-    void getUnitByIdAndAddToList(String id, MutableLiveData<ArrayList<DUnit>> list, int position) {
-        db.collection(TABLE_UNITS)
-                .whereEqualTo(UNIT_ID, id)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        QuerySnapshot querySnapshot = task.getResult();
-                        if (querySnapshot == null || querySnapshot.size() == 0) return;
-                        DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
-                        MutableLiveData<ArrayList<DUnit>> newList = new MutableLiveData<>();
-                        newList.setValue(list.getValue());
-
-                        DUnit unit = newList.getValue().get(position);
-                        unit.setDescription(String.valueOf(documentSnapshot.get(UNIT_DESCRIPTION)));
-                        unit.setName(String.valueOf(documentSnapshot.get(UNIT_DEVICE)));
-                        unit.setEmployee(String.valueOf(documentSnapshot.get(UNIT_EMPLOYEE)));
-                        unit.setId(String.valueOf(documentSnapshot.get(UNIT_ID)));
-                        unit.setInnerSerial(String.valueOf(documentSnapshot.get(UNIT_INNER_SERIAL)));
-                        unit.setLocation(String.valueOf(documentSnapshot.get(UNIT_LOCATION)));
-                        unit.setSerial(String.valueOf(documentSnapshot.get(UNIT_SERIAL)));
-                        unit.setState(String.valueOf(documentSnapshot.get(UNIT_STATE)));
-                        unit.setType(String.valueOf(documentSnapshot.get(UNIT_TYPE)));
-                        Timestamp timestamp = (Timestamp) documentSnapshot.get(UNIT_DATE);
-                        if (timestamp!=null)unit.setDate(timestamp.toDate());
-
-                        list.setValue(newList.getValue());
-                    } else {
-                        Log.e(TAG, "Error getting documents: ", task.getException());
-                    }
-                });
-    }
-
-    //todo поменять на этот вариант
-    void getUnitByIdAndAddToList_EXP(String id, MutableLiveData<ArrayList<DUnit>> list, int position) {
-        db.collection(TABLE_UNITS)
-                .document(id)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot documentSnapshot = task.getResult();
-                        if (documentSnapshot.exists()) {
-                            MutableLiveData<ArrayList<DUnit>> newList = new MutableLiveData<>();
-                            newList.setValue(list.getValue());
-
-                            DUnit unit = newList.getValue().get(position);
-                            unit.setDescription(String.valueOf(documentSnapshot.get(UNIT_DESCRIPTION)));
-                            unit.setName(String.valueOf(documentSnapshot.get(UNIT_DEVICE)));
-                            unit.setEmployee(String.valueOf(documentSnapshot.get(UNIT_EMPLOYEE)));
-                            unit.setId(String.valueOf(documentSnapshot.get(UNIT_ID)));
-                            unit.setInnerSerial(String.valueOf(documentSnapshot.get(UNIT_INNER_SERIAL)));
-                            unit.setLocation(String.valueOf(documentSnapshot.get(UNIT_LOCATION)));
-                            unit.setSerial(String.valueOf(documentSnapshot.get(UNIT_SERIAL)));
-                            unit.setState(String.valueOf(documentSnapshot.get(UNIT_STATE)));
-                            unit.setType(String.valueOf(documentSnapshot.get(UNIT_TYPE)));
-                            Timestamp timestamp = (Timestamp) documentSnapshot.get(UNIT_DATE);
-                            if (timestamp!=null)unit.setDate(timestamp.toDate());
-
-                            list.setValue(newList.getValue());
-                        }
-                    } else {
-                        Log.e(TAG, "Error getting documents: ", task.getException());
-                    }
-                });
-    }
-
-    private DUnit getUnitFromSnapshot(DocumentSnapshot documentSnapshot) {
-        DUnit unit = new DUnit();
-        unit.setDescription(String.valueOf(documentSnapshot.get(UNIT_DESCRIPTION)));
-        unit.setName(String.valueOf(documentSnapshot.get(UNIT_DEVICE)));
-        unit.setEmployee(String.valueOf(documentSnapshot.get(UNIT_EMPLOYEE)));
-        unit.setId(String.valueOf(documentSnapshot.get(UNIT_ID)));
-        unit.setInnerSerial(String.valueOf(documentSnapshot.get(UNIT_INNER_SERIAL)));
-        unit.setLocation(String.valueOf(documentSnapshot.get(UNIT_LOCATION)));
-        unit.setSerial(String.valueOf(documentSnapshot.get(UNIT_SERIAL)));
-        unit.setState(String.valueOf(documentSnapshot.get(UNIT_STATE)));
-        unit.setType(String.valueOf(documentSnapshot.get(UNIT_TYPE)));
-        Timestamp timestamp = (Timestamp) documentSnapshot.get(UNIT_DATE);
-        if (timestamp!=null)unit.setDate(timestamp.toDate());
-        return unit;
-    }
-
     /**
      * Получаем юнит из БД по его идентификатору
      * @param id id юнита, которого нужно прочитать в БД
      * @param selectedUnit MutableListData, в который записываем найденный юнит
      */
-    //этот метод будет заменой getUnitById
     void getUnitById_EXP(String id, MutableLiveData<DUnit> selectedUnit) {
         db.collection(TABLE_UNITS)
                 .document(id)
@@ -295,6 +129,7 @@ class FireDBHelper {
                 });
     }
 
+    /**Обертка для getUnitListByParam*/
     void getRepairUnitListBySerial(MutableLiveData<ArrayList<DUnit>> unitList, String serial) {
         getUnitListByParam(unitList, UNIT_DEVICE, ANY_VALUE,
                 UNIT_LOCATION, ANY_VALUE,
