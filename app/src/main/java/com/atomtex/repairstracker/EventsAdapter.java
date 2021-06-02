@@ -4,14 +4,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Objects;
-
-import static com.atomtex.repairstracker.Utils.getNameById;
+import static com.atomtex.repairstracker.Dictionary.getStringById;
 import static com.atomtex.repairstracker.Utils.getRightDate;
 import static com.atomtex.repairstracker.Utils.getRightTime;
 
@@ -43,12 +40,12 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.StatesView
     public void onBindViewHolder(@NonNull StatesViewHolder holder, int position) {
         DEvent event = events.get(position);
 
-        String state = getNameById(event.getState(), mViewModel.getAllStatesNameList().getValue(), Objects.requireNonNull(mViewModel.getAllStatesIdList().getValue()));
-        String location = getNameById(event.getLocation(),mViewModel.getLocationNamesList().getValue(),
-                mViewModel.getLocationIdList().getValue());
+        String state = getStringById(event.getState());
+        String location = getStringById(event.getLocation());
 
         holder.tState.setText(state);
         holder.tLocation.setText(location);
+
         long time = event.getDate().getTime();
         holder.tDate.setText(String.format("%s\n%s", getRightDate(time), getRightTime(time)));
     }

@@ -1,0 +1,41 @@
+<resources>
+
+    <string name="app_logo">Logo de l\'application</string>
+    <string name="nothing_found">Rien n\'a été trouvé</string>
+    <string name="empty_value">- - -</string>
+    <string name="serial_number">Numéro de série</string>
+    <string name="find_number">Rechercher</string>
+
+
+    <!-- ————————————————————————————————————————————————————— -->
+    <string name="adjustment">Ajustement</string>
+    <string name="assembly">Zone d\'assemblage</string>
+    <string name="graduation">Graduation</string>
+    <string name="repair_area">Repair Service</string>
+    <string name="soldering">Soldering</string>
+    <!-- ————————————————————————————————————————————————————— -->
+    <string name="adj_r_diagnostica">Diagnostics</string>
+    <string name="adj_r_ispytania">Testing</string>
+    <string name="adj_r_utochnenie">Clarification</string>
+    <string name="adj_s_calibrovka">Calibration</string>
+    <string name="adj_s_nastroika">Tuning</string>
+    <string name="adj_s_otgruzka">Shipment</string>
+    <string name="ass_a_razborka">Disassembly</string>
+    <string name="ass_a_sborka">Assembly</string>
+    <string name="ass_a_zamena">Replacement</string>
+    <string name="gra_a_graduirovka">Graduation</string>
+    <string name="gra_a_psi">Testing</string>
+    <string name="rep_r_prinyat">Accepted for repair</string>
+    <string name="rep_r_raschet">Calculation</string>
+    <string name="rep_r_soglasovanie">Agreement</string>
+    <string name="sol_a_montag">Soldering</string>
+    <!-- ————————————————————————————————————————————————————— -->
+    <string name="AT2503">AT2503</string>
+    <string name="AT6130">AT6130</string>
+    <string name="AT6130C">AT6130С</string>
+    <string name="BDKG01">BDKG-01</string>
+    <string name="BDKG04">BDKG-04</string>
+    <string name="serial_number_prefix">N %s</string>
+    <string name="days">%d j.</string>
+    <!-- ————————————————————————————————————————————————————— -->
+</resources>

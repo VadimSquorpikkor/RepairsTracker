@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import static com.atomtex.repairstracker.Dictionary.getStringById;
 
 public class InfoFragment extends Fragment {
 
@@ -57,7 +58,7 @@ public class InfoFragment extends Fragment {
     }
 
     private void insertDataToFields(DUnit unit) {
-        deviceName.setText(Utils.getRightValue(unit.getName()));
+        deviceName.setText(getStringById(unit.getName()));
         serial.setText(Utils.getRightValue(unit.getSerial()));
     }
 }

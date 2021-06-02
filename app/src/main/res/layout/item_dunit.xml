@@ -38,16 +38,6 @@
             />
 
         <TextView
-            android:id="@+id/textInnerSerial"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="(вн. 12345)"
-            android:textColor="@color/main_orange"
-            app:layout_constraintStart_toEndOf="@+id/textSerial"
-            app:layout_constraintTop_toTopOf="@+id/textSerial"
-            />
-
-        <TextView
             android:id="@+id/textDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

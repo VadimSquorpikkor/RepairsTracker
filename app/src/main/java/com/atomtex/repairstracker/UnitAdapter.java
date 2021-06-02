@@ -8,11 +8,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Objects;
-
+import static com.atomtex.repairstracker.Dictionary.getStringById;
 import static com.atomtex.repairstracker.Utils.EMPTY_VALUE;
 import static com.atomtex.repairstracker.Utils.daysPassed;
-import static com.atomtex.repairstracker.Utils.getNameById;
 import static com.atomtex.repairstracker.Utils.getRightDateAndTime;
 
 public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.DUnitViewHolder>{
@@ -52,23 +50,18 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.DUnitViewHolde
     public void onBindViewHolder(@NonNull DUnitViewHolder holder, int position) {
         DUnit unit = units.get(position);
 
-        String state = getNameById(unit.getState(), mViewModel.getAllStatesNameList().getValue(), Objects.requireNonNull(mViewModel.getAllStatesIdList().getValue()));
-        String name = getNameById(unit.getName(), mViewModel.getDeviceNameList().getValue(), Objects.requireNonNull(mViewModel.getDeviceIdList().getValue()));
-
+        String state = getStringById(unit.getState());
+        String name = getStringById(unit.getName());
 
         holder.tState.setText(state);
         holder.tName.setText(name);
-        holder.tSerial.setText(String.format("№ %s", Utils.getRightValue(unit.getSerial())));
-        if (unit.getInnerSerial()==null||unit.getInnerSerial().equals(""))holder.tInnerSerial.setText("");
-        else holder.tInnerSerial.setText(String.format("(вн. %s)", unit.getInnerSerial()));
+        holder.tSerial.setText(String.format(App.getContext().getString(R.string.serial_number_prefix), Utils.getRightValue(unit.getSerial())));
 
         if (unit.getDate()!=null){
-//            holder.tDate.setVisibility(View.VISIBLE);
             holder.tDate.setText(getRightDateAndTime(unit.getDate().getTime()));
-//            int days = daysPassed(unit.getDate());
-            holder.tDatePassed.setText(String.format("%s д.", daysPassed(unit.getDate())));
+            holder.tDatePassed.setText(String.format(App.getContext().getString(R.string.days), daysPassed(unit.getDate())));
+//            holder.tDatePassed.setText(String.format("%ddays", daysPassed(unit.getDate())));
         } else {
-//            holder.tDate.setVisibility(View.GONE);
             holder.tDate.setText(EMPTY_VALUE);
             holder.tDatePassed.setText("");
         }
@@ -82,7 +75,6 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.DUnitViewHolde
 
     class DUnitViewHolder extends RecyclerView.ViewHolder {
         private final TextView tName;
-        private final TextView tInnerSerial;
         private final TextView tSerial;
         private final TextView tState;
         private final TextView tDate;
@@ -91,7 +83,6 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.DUnitViewHolde
         public DUnitViewHolder(@NonNull View itemView) {
             super(itemView);
             tName = itemView.findViewById(R.id.textName);
-            tInnerSerial = itemView.findViewById(R.id.textInnerSerial);
             tSerial = itemView.findViewById(R.id.textSerial);
             tState = itemView.findViewById(R.id.textState);
             tDate = itemView.findViewById(R.id.textDate);
@@ -99,10 +90,6 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.DUnitViewHolde
 
             //для работы OnNoteClickListener
             itemView.setOnClickListener(view -> {
-//                state = !state;
-//                if (state) Log.e(TAG, "☻ГРУЗИМ "+getAdapterPosition());
-//                else Log.e(TAG, "☻СВОРАЧИВАЕМСЯ!");
-
                 if (onItemClickListener != null) {
                     onItemClickListener.onItemClick(DUnitViewHolder.this.getAdapterPosition());
                 }

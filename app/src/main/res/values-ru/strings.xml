@@ -1,0 +1,41 @@
+<resources>
+
+    <string name="app_logo">Логотип приложения</string>
+    <string name="nothing_found">Ничего не найдено</string>
+    <string name="empty_value">- - -</string>
+    <string name="serial_number">Серийный номер</string>
+    <string name="find_number">Найти</string>
+
+
+    <!-- ————————————————————————————————————————————————————— -->
+    <string name="adjustment">Участок РИР</string>
+    <string name="assembly">Сборочный участок</string>
+    <string name="graduation">Градуировка</string>
+    <string name="repair_area">Группа сервиса</string>
+    <string name="soldering">Монтаж</string>
+    <!-- ————————————————————————————————————————————————————— -->
+    <string name="adj_r_diagnostica">Диагностика</string>
+    <string name="adj_r_ispytania">Испытания</string>
+    <string name="adj_r_utochnenie">Уточнение</string>
+    <string name="adj_s_calibrovka">Калибровка</string>
+    <string name="adj_s_nastroika">Настройка</string>
+    <string name="adj_s_otgruzka">Отгрузка</string>
+    <string name="ass_a_razborka">Разборка</string>
+    <string name="ass_a_sborka">Сборка</string>
+    <string name="ass_a_zamena">Замена</string>
+    <string name="gra_a_graduirovka">Градуировка</string>
+    <string name="gra_a_psi">ПСИ</string>
+    <string name="rep_r_prinyat">Принят в ремонт</string>
+    <string name="rep_r_raschet">Расчет</string>
+    <string name="rep_r_soglasovanie">Согласование</string>
+    <string name="sol_a_montag">Монтаж</string>
+    <!-- ————————————————————————————————————————————————————— -->
+    <string name="AT2503">AT2503</string>
+    <string name="AT6130">МКС-AT6130</string>
+    <string name="AT6130C">МКС-AT6130С</string>
+    <string name="BDKG01">БДКГ-01</string>
+    <string name="BDKG04">БДКГ-04</string>
+    <string name="serial_number_prefix">№ %s</string>
+    <string name="days">%d д.</string>
+    <!-- ————————————————————————————————————————————————————— -->
+</resources>

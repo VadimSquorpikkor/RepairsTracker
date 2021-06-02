@@ -1,6 +1,6 @@
 package com.atomtex.repairstracker;
 
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 public class Constant {
     public static final String TAG = "tag";
 
@@ -51,7 +51,7 @@ public class Constant {
 
     public static final String EMPTY_LOCATION_ID = "empty_location_id";
     public static final String EMPTY_LOCATION_NAME = "Локация не найдена";
-    //--------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
     public static final String SERIAL_TYPE = "serial_type";
     public static final String REPAIR_TYPE = "repair_type";
 
@@ -65,4 +65,5 @@ public class Constant {
 
 
     public static final String SWITCHER_STATE = "switcher_state";
+//--------------------------------------------------------------------------------------------------
 }

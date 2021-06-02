@@ -1,0 +1,41 @@
+<resources>
+
+    <string name="app_logo">App-Logo</string>
+    <string name="nothing_found">Nichts gefunden</string>
+    <string name="empty_value">- - -</string>
+    <string name="serial_number">Ordnungsnummer</string>
+    <string name="find_number">Suche</string>
+
+
+    <!-- ————————————————————————————————————————————————————— -->
+    <string name="adjustment">Einstellung</string>
+    <string name="assembly">Montagebereich</string>
+    <string name="graduation">Rahmen</string>
+    <string name="repair_area">Reparaturdienst</string>
+    <string name="soldering">Löten</string>
+    <!-- ————————————————————————————————————————————————————— -->
+    <string name="adj_r_diagnostica">Diagnose</string>
+    <string name="adj_r_ispytania">Testen</string>
+    <string name="adj_r_utochnenie">Klärung</string>
+    <string name="adj_s_calibrovka">Kalibrierung</string>
+    <string name="adj_s_nastroika">Abstimmung</string>
+    <string name="adj_s_otgruzka">Sendung</string>
+    <string name="ass_a_razborka">Demontage</string>
+    <string name="ass_a_sborka">Versammlung</string>
+    <string name="ass_a_zamena">Ersatz</string>
+    <string name="gra_a_graduirovka">Skala</string>
+    <string name="gra_a_psi">Testen</string>
+    <string name="rep_r_prinyat">Zur Reparatur angenommen</string>
+    <string name="rep_r_raschet">Berechnung</string>
+    <string name="rep_r_soglasovanie">Zustimmung</string>
+    <string name="sol_a_montag">Löten</string>
+    <!-- ————————————————————————————————————————————————————— -->
+    <string name="AT2503">AT2503</string>
+    <string name="AT6130">AT6130</string>
+    <string name="AT6130C">AT6130С</string>
+    <string name="BDKG01">BDKG-01</string>
+    <string name="BDKG04">BDKG-04</string>
+    <string name="serial_number_prefix">ON %s</string>
+    <string name="days">%d t.</string>
+    <!-- ————————————————————————————————————————————————————— -->
+</resources>
