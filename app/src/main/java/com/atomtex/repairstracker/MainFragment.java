@@ -3,7 +3,6 @@ package com.atomtex.repairstracker;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,10 +20,9 @@ import static com.atomtex.repairstracker.ThemeUtils.getTheme;
 
 public class MainFragment extends Fragment {
 
-    View view;
-    MainViewModel mViewModel;
-    RecyclerView foundUnitRecycler;
-    ImageView logoImage;
+    private MainViewModel mViewModel;
+    private RecyclerView foundUnitRecycler;
+    private ImageView logoImage;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -39,19 +37,18 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ThemeUtils.onActivityCreateSetTheme(getActivity());
-        view = inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
         mViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
         logoImage = view.findViewById(R.id.logo_image);
 
-        final MutableLiveData<ArrayList<DUnit>> units = mViewModel.getUnitListToObserve();
-        units.observe(getViewLifecycleOwner(), this::updateFoundRecycler);
+        mViewModel.getUnitListToObserve().observe(getViewLifecycleOwner(), this::updateFoundRecycler);
 
         foundUnitRecycler = view.findViewById(R.id.found_unit_recycler);
 
         view.findViewById(R.id.change_theme).setOnClickListener(v -> changeTheme());
         view.findViewById(R.id.refresh).setOnClickListener(v -> refresh());
-        view.findViewById(R.id.add_device).setOnClickListener(v -> mViewModel.openAddDeviceDialog(requireFragmentManager()));
+        view.findViewById(R.id.add_device).setOnClickListener(v -> openAddDeviceDialog());
 
         return view;
     }
@@ -60,14 +57,14 @@ public class MainFragment extends Fragment {
 
     }
 
-    /**По положению свича устанавливает нужную тему: светлую или темную*/
-    //todo вместо свича сделать картинку (солнце/луна)
+    /**По тапу на иконку устанавливает нужную тему: светлую, если сейчас темная, и наоборот*/
     void changeTheme() {
         if (getTheme()==THEME_LIGHT)ThemeUtils.changeToTheme(requireActivity(), THEME_DARK);
         else ThemeUtils.changeToTheme(requireActivity(), THEME_LIGHT);
     }
 
     private void updateFoundRecycler(ArrayList<DUnit> list) {
+        mViewModel.updateUnitsSerialNumbersList();
         if (list == null) return;
         if (list.size() == 0) {
             logoImage.setVisibility(View.VISIBLE);
@@ -83,5 +80,10 @@ public class MainFragment extends Fragment {
 
     private void showEvents(int position) {
         mViewModel.showEvents(position, requireActivity().getSupportFragmentManager());
+    }
+
+    public void openAddDeviceDialog() {
+        SearchUnitParamsDialog dialog = new SearchUnitParamsDialog();
+        dialog.show(requireFragmentManager(), null);
     }
 }

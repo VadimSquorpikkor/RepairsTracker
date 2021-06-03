@@ -1,8 +1,9 @@
 package com.atomtex.repairstracker;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
+
+import static com.atomtex.repairstracker.SaveLoad.loadIntParam;
+import static com.atomtex.repairstracker.SaveLoad.saveParam;
 
 class ThemeUtils {
     private static int sTheme;
@@ -13,13 +14,13 @@ class ThemeUtils {
     public static void changeToTheme(Activity activity, int theme)
     {
         sTheme = theme;
-        saveParam(KEY_THEME, sTheme, activity);
+        saveParam(KEY_THEME, sTheme);
         activity.recreate();
     }
 
     public static void onActivityCreateSetTheme(Activity activity)
     {
-        sTheme = loadTheme(activity);
+        sTheme = loadIntParam(KEY_THEME);
         switch (sTheme)
         {
             default:
@@ -32,20 +33,4 @@ class ThemeUtils {
         return sTheme;
     }
 
-    static int loadTheme(Activity activity) {
-        SharedPreferences mPreferences;
-        mPreferences = activity.getPreferences(Context.MODE_PRIVATE);
-        int value = 2;
-        if (mPreferences.contains(KEY_THEME)) {
-            value = mPreferences.getInt(KEY_THEME, 2);
-        }
-        return value;
-    }
-
-    @SuppressWarnings("SameParameterValue")
-    static void saveParam(String key, int param, Activity activity) {
-        SharedPreferences mPreferences;
-        mPreferences = activity.getPreferences(Context.MODE_PRIVATE);
-        mPreferences.edit().putInt(key, param).apply();
-    }
 }
