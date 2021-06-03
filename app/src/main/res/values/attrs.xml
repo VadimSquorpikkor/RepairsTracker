@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--    <attr name={YourAttributeName} format={AttributeType(color,dimension etc)}/>-->
+
+    <attr name="smallTextColor" format="color"/>
+    <attr name="mediumTextColor" format="color"/>
+    <attr name="backgroundColor" format="color"/>
+    <attr name="coloredText" format="color"/>
+    <attr name="dialogBackground" format="color"/>
+    <attr name="lightButton" format="color"/>
+    <attr name="lightButtonPressed" format="color"/>
+    <attr name="darkButton" format="color"/>
+    <attr name="editBackground" format="color"/>
+
+    <attr name="logoImage" format="reference"/>
+    <attr name="themeSelector" format="reference"/>
+
+
+
+</resources>

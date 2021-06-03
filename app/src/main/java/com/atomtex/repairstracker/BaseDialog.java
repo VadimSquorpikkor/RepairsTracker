@@ -31,7 +31,7 @@ class BaseDialog extends DialogFragment {
     public void initialize(int layout) {
         dialog = new AlertDialog.Builder(mContext).create();
         Window window = dialog.getWindow();
-        if (window != null) window.setBackgroundDrawableResource(R.drawable.main_gradient);
+        //if (window != null) window.setBackgroundDrawableResource(R.drawable.main_gradient);
         view = requireActivity().getLayoutInflater().inflate(layout, null);
         dialog.setView(view, 0, 0, 0, 0);
     }
@@ -40,7 +40,7 @@ class BaseDialog extends DialogFragment {
     public void initializeWithVM(int layout) {
         dialog = new AlertDialog.Builder(mContext).create();
         Window window = dialog.getWindow();
-        if (window != null) window.setBackgroundDrawableResource(R.drawable.main_gradient);
+        //if (window != null) window.setBackgroundDrawableResource(R.drawable.main_gradient);
         view = requireActivity().getLayoutInflater().inflate(layout, null);
         dialog.setView(view, 0, 0, 0, 0);
         mViewModel = new ViewModelProvider((MainActivity) mContext).get(MainViewModel.class);

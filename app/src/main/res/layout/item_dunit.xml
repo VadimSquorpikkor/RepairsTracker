@@ -15,13 +15,15 @@
         android:layout_margin="4dp">
 
 
+
+
         <TextView
             android:id="@+id/textName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="БДКГ-02"
+            android:textColor="?attr/smallTextColor"
             android:textSize="11sp"
-            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
@@ -31,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="123.002"
-            android:textColor="@color/main_orange"
+            android:textColor="?attr/coloredText"
             android:paddingEnd="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textName"
@@ -41,7 +43,6 @@
             android:id="@+id/textDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
             android:textSize="9sp"
             android:textStyle="italic"
             tools:text="12.04.21"
@@ -55,7 +56,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingEnd="10dp"
-            android:textColor="@color/white"
             android:textSize="9sp"
             android:textStyle="italic"
             app:layout_constraintStart_toEndOf="@+id/textDate"

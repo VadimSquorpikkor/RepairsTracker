@@ -2,7 +2,6 @@ package com.atomtex.repairstracker;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 
 class ThemeUtils {
@@ -10,18 +9,14 @@ class ThemeUtils {
     public final static int THEME_LIGHT = 1;
     public final static int THEME_DARK = 2;
     public final static String KEY_THEME = "theme";
-    /**
-     * Set the theme of the Activity, and restart it by creating a new Activity of the same type.
-     */
+
     public static void changeToTheme(Activity activity, int theme)
     {
         sTheme = theme;
         saveParam(KEY_THEME, sTheme, activity);
-        activity.finish();
-        activity.startActivity(new Intent(activity, activity.getClass()));
+        activity.recreate();
     }
 
-    /** Set the theme of the activity, according to the configuration. */
     public static void onActivityCreateSetTheme(Activity activity)
     {
         sTheme = loadTheme(activity);

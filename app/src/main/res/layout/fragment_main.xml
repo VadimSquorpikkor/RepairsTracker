@@ -1,52 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/backgroundColor"
     tools:context=".MainFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/found_unit_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/found_unit_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/logo_image"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="50dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/app_logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/logo_big_grayscale"
+        />
+<!--        app:srcCompat="?attr/logoImage"-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:paddingHorizontal="40dp"
+        android:paddingVertical="5dp"
+        android:background="?attr/lightButton"
+        >
+
+        <ImageButton
+            android:id="@+id/change_theme"
+            android:layout_weight="1"
+            style="@style/forButton"
+            android:src="?attr/themeSelector"
             />
 
-        <ImageView
-            android:id="@+id/logo_image"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="50dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintHorizontal_bias="0.4"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@mipmap/logo_big_grayscale"
-            android:contentDescription="@string/app_logo" />
+        <ImageButton
+            android:id="@+id/refresh"
+            android:layout_weight="1"
+            style="@style/forButton"
+            android:src="@drawable/ic_baseline_refresh_24"
+            />
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/theme_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Switch"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
+        <ImageButton
             android:id="@+id/add_device"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Добавить устройство"
-            android:textAllCaps="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_weight="1"
+            style="@style/forButton"
+            android:src="@drawable/ic_baseline_add_24"
+            />
+
+    </LinearLayout>
+
+    <!--<Button
+        android:id="@+id/add_device"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Добавить устройство"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

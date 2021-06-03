@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:textColor="@color/main_orange"
+            android:textColor="?attr/coloredText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Уч. регулировки" />
@@ -41,7 +41,6 @@
             android:layout_height="wrap_content"
             android:padding="4dp"
             android:gravity="end"
-            android:textColor="@color/white"
             android:textSize="12sp"
             android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"

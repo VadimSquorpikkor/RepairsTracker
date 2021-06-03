@@ -2,7 +2,6 @@ package com.atomtex.repairstracker;
 
 import android.os.Bundle;
 
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
@@ -24,7 +23,6 @@ public class MainFragment extends Fragment {
 
     View view;
     MainViewModel mViewModel;
-    SwitchCompat themeSwitch;
     RecyclerView foundUnitRecycler;
     ImageView logoImage;
 
@@ -40,6 +38,7 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ThemeUtils.onActivityCreateSetTheme(getActivity());
         view = inflater.inflate(R.layout.fragment_main, container, false);
         mViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
@@ -48,23 +47,23 @@ public class MainFragment extends Fragment {
         final MutableLiveData<ArrayList<DUnit>> units = mViewModel.getUnitListToObserve();
         units.observe(getViewLifecycleOwner(), this::updateFoundRecycler);
 
-        themeSwitch = view.findViewById(R.id.theme_switch);
-        themeSwitch.setChecked(getTheme()==2);
-        themeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> changeTheme(themeSwitch.isChecked()));
-
         foundUnitRecycler = view.findViewById(R.id.found_unit_recycler);
 
-        view.findViewById(R.id.add_device).setOnClickListener(v -> {
-            mViewModel.openAddDeviceDialog(requireFragmentManager());
-        });
+        view.findViewById(R.id.change_theme).setOnClickListener(v -> changeTheme());
+        view.findViewById(R.id.refresh).setOnClickListener(v -> refresh());
+        view.findViewById(R.id.add_device).setOnClickListener(v -> mViewModel.openAddDeviceDialog(requireFragmentManager()));
 
         return view;
     }
 
+    private void refresh() {
+
+    }
+
     /**По положению свича устанавливает нужную тему: светлую или темную*/
     //todo вместо свича сделать картинку (солнце/луна)
-    void changeTheme(boolean newState) {
-        if (newState)ThemeUtils.changeToTheme(requireActivity(), THEME_DARK);
+    void changeTheme() {
+        if (getTheme()==THEME_LIGHT)ThemeUtils.changeToTheme(requireActivity(), THEME_DARK);
         else ThemeUtils.changeToTheme(requireActivity(), THEME_LIGHT);
     }
 
