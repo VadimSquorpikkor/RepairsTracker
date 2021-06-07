@@ -66,4 +66,6 @@ public class Constant {
 
     public static final String SWITCHER_STATE = "switcher_state";
 //--------------------------------------------------------------------------------------------------
+public static final String TABLE_NAMES = "names";
+
 }

@@ -40,8 +40,11 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.StatesView
     public void onBindViewHolder(@NonNull StatesViewHolder holder, int position) {
         DEvent event = events.get(position);
 
-        String state = getStringById(event.getState());
-        String location = getStringById(event.getLocation());
+//        String state = getStringById(event.getState());
+//        String location = getStringById(event.getLocation());
+
+        String state = event.getState();
+        String location = event.getLocation();
 
         holder.tState.setText(state);
         holder.tLocation.setText(location);

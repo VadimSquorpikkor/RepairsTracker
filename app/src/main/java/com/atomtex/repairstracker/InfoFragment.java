@@ -58,7 +58,8 @@ public class InfoFragment extends Fragment {
     }
 
     private void insertDataToFields(DUnit unit) {
-        deviceName.setText(getStringById(unit.getName()));
+//        deviceName.setText(getStringById(unit.getName()));
+        deviceName.setText(unit.getName());
         serial.setText(Utils.getRightValue(unit.getSerial()));
     }
 }

@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Locale;
+
 import static com.atomtex.repairstracker.Dictionary.getStringById;
 import static com.atomtex.repairstracker.Utils.EMPTY_VALUE;
 import static com.atomtex.repairstracker.Utils.daysPassed;
@@ -50,8 +52,12 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.DUnitViewHolde
     public void onBindViewHolder(@NonNull DUnitViewHolder holder, int position) {
         DUnit unit = units.get(position);
 
-        String state = getStringById(unit.getState());
-        String name = getStringById(unit.getName());
+//        String state = getStringById(unit.getState());
+//        String name = getStringById(unit.getName());
+        String state = unit.getState();
+        String name = unit.getName();
+
+//        if (Locale.)
 
         holder.tState.setText(state);
         holder.tName.setText(name);
