@@ -28,6 +28,11 @@
     <string name="rep_r_prinyat">Accettato per la riparazione</string>
     <string name="rep_r_raschet">Calcolo</string>
     <string name="rep_r_soglasovanie">Accordo</string>
+
+    <string name="rep_r_vydano">Rilasciato</string>
+    <string name="rep_r_otpravleno">Spedito</string>
+    <string name="rep_r_ozidanie">In attesa del pagamento</string>
+
     <string name="sol_a_montag">Saldatura</string>
     <!-- ————————————————————————————————————————————————————— -->
     <string name="AT2503">AT2503</string>

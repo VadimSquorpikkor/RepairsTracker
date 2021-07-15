@@ -11,24 +11,29 @@
     <string name="adjustment">Ajustement</string>
     <string name="assembly">Zone d\'assemblage</string>
     <string name="graduation">Graduation</string>
-    <string name="repair_area">Repair Service</string>
-    <string name="soldering">Soldering</string>
+    <string name="repair_area">Service de réparation</string>
+    <string name="soldering">Soudure</string>
     <!-- ————————————————————————————————————————————————————— -->
-    <string name="adj_r_diagnostica">Diagnostics</string>
-    <string name="adj_r_ispytania">Testing</string>
+    <string name="adj_r_diagnostica">Diagnostique</string>
+    <string name="adj_r_ispytania">Essai</string>
     <string name="adj_r_utochnenie">Clarification</string>
-    <string name="adj_s_calibrovka">Calibration</string>
-    <string name="adj_s_nastroika">Tuning</string>
-    <string name="adj_s_otgruzka">Shipment</string>
-    <string name="ass_a_razborka">Disassembly</string>
-    <string name="ass_a_sborka">Assembly</string>
-    <string name="ass_a_zamena">Replacement</string>
+    <string name="adj_s_calibrovka">Étalonnage</string>
+    <string name="adj_s_nastroika">Réglage</string>
+    <string name="adj_s_otgruzka">Expédition</string>
+    <string name="ass_a_razborka">Démontage</string>
+    <string name="ass_a_sborka">Assemblée</string>
+    <string name="ass_a_zamena">Remplacement</string>
     <string name="gra_a_graduirovka">Graduation</string>
-    <string name="gra_a_psi">Testing</string>
-    <string name="rep_r_prinyat">Accepted for repair</string>
-    <string name="rep_r_raschet">Calculation</string>
-    <string name="rep_r_soglasovanie">Agreement</string>
-    <string name="sol_a_montag">Soldering</string>
+    <string name="gra_a_psi">Essai</string>
+    <string name="rep_r_prinyat">Accepté pour réparation</string>
+    <string name="rep_r_raschet">Calcul</string>
+    <string name="rep_r_soglasovanie">Accord</string>
+
+    <string name="rep_r_vydano">Publié</string>
+    <string name="rep_r_otpravleno">Expédié</string>
+    <string name="rep_r_ozidanie">En attente de paiement</string>
+
+    <string name="sol_a_montag">Soudure</string>
     <!-- ————————————————————————————————————————————————————— -->
     <string name="AT2503">AT2503</string>
     <string name="AT6130">AT6130</string>

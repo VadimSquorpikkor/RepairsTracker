@@ -28,6 +28,11 @@
     <string name="rep_r_prinyat">Accepted for repair</string>
     <string name="rep_r_raschet">Calculation</string>
     <string name="rep_r_soglasovanie">Agreement</string>
+
+    <string name="rep_r_vydano">Issued</string>
+    <string name="rep_r_otpravleno">Shipped</string>
+    <string name="rep_r_ozidanie">Waiting for payment</string>
+
     <string name="sol_a_montag">Soldering</string>
 <!-- ————————————————————————————————————————————————————— -->
     <string name="AT2503">AT2503</string>

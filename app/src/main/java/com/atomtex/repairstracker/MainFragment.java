@@ -2,8 +2,10 @@ package com.atomtex.repairstracker;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,7 +52,29 @@ public class MainFragment extends Fragment {
         view.findViewById(R.id.refresh).setOnClickListener(v -> refresh());
         view.findViewById(R.id.add_device).setOnClickListener(v -> openAddDeviceDialog());
 
+        //Чтобы пользоваться свайпом, добавляем
+        //2-й параметр -- это направление
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                //что-то делаем по свайпу вправо или влево
+                removeItem(viewHolder.getAdapterPosition());
+            }
+        });
+
+        //присваиваем хелпер к ресайклеру
+        itemTouchHelper.attachToRecyclerView(foundUnitRecycler);
+
         return view;
+    }
+
+    private void removeItem(int adapterPosition) {
+        mViewModel.removeItemFromList(adapterPosition);
     }
 
     private void refresh() {

@@ -28,6 +28,11 @@
     <string name="rep_r_prinyat">Принят в ремонт</string>
     <string name="rep_r_raschet">Расчет</string>
     <string name="rep_r_soglasovanie">Согласование</string>
+
+    <string name="rep_r_vydano">Выдано</string>
+    <string name="rep_r_otpravleno">Отправлено</string>
+    <string name="rep_r_ozidanie">Ожидание оплаты</string>
+
     <string name="sol_a_montag">Монтаж</string>
     <!-- ————————————————————————————————————————————————————— -->
     <string name="AT2503">AT2503</string>

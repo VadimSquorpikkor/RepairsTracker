@@ -82,4 +82,11 @@ public class MainViewModel extends AndroidViewModel {
         }
         saveArray(SERIAL_LIST, serialList);
     }
+
+    /**Удаляет устройство из списка и сохраняет получившийся список*/
+    void removeItemFromList(int position) {
+        unitListToObserve.getValue().remove(position);
+        unitListToObserve.setValue(unitListToObserve.getValue());//update
+        updateUnitsSerialNumbersList();
+    }
 }
