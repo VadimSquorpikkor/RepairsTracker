@@ -2,10 +2,7 @@ package com.atomtex.repairstracker;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
-
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -13,11 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
 import static com.atomtex.repairstracker.Constant.EVENT_DATE;
@@ -72,8 +65,9 @@ class FireDBHelper {
                     if (task.isSuccessful()) {
                         QuerySnapshot querySnapshot = task.getResult();
                         if (querySnapshot == null) return;
-                        if (unitList == null || unitList.getValue() == null) return;
-                        ArrayList<DUnit> list = new ArrayList<>(unitList.getValue());
+                        if (unitList == null) return;
+                        ArrayList<DUnit> list = new ArrayList<>();
+                        if (unitList.getValue()!=null) list.addAll(unitList.getValue());
                         for (DocumentSnapshot document : task.getResult()) {
                             DUnit unit = new DUnit();
                             unit.setName(String.valueOf(document.get(UNIT_DEVICE)));
@@ -105,14 +99,34 @@ class FireDBHelper {
                                     });
                             //----------------------------------------------------------------------
 
-                            list.add(unit);
+                            int position = serialInListPosition(unitList.getValue(), serial);
+                            if (position != -1) unitList.getValue().set(position, unit);//обновить, если такой юнит уже есть в списке
+                            else list.add(unit);//а если нет, то добавить
                         }
                         unitList.setValue(list);
-//                        }
                     } else {
                         Log.e(TAG, "Error getting documents: ", task.getException());
                     }
                 });
+    }
+
+    /**Если юнит с таким серийником уже есть в списке, то метод возвращает его позицию в списке, иначе возвращает -1*/
+    private int serialInListPosition(ArrayList<DUnit> list, String serial) {
+        if (list == null || list.size()==0) return -1;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getSerial().equals(serial)) return i;
+        }
+        return -1;
+    }
+
+    /**Если юнит с таким серийником уже есть в списке, то метод возвращает true, иначе возвращает false*/
+    @SuppressWarnings("unused")
+    private boolean serialAlreadyInList(ArrayList<DUnit> list, String serial) {
+        if (list == null || list.size()==0) return false;
+        for (DUnit unit:list) {
+            if (unit.getSerial().equals(serial)) return true;
+        }
+        return false;
     }
 
     /**Для перевода в нужный язык. Загружает из таблицы слово на всех языках и выбирает значение

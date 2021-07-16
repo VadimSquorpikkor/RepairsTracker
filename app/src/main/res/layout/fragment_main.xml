@@ -7,15 +7,27 @@
     android:background="?attr/backgroundColor"
     tools:context=".MainFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/found_unit_recycler"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refreshView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/found_unit_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ImageView
         android:id="@+id/logo_image"
@@ -34,37 +46,37 @@
 <!--        app:srcCompat="?attr/logoImage"-->
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/lightButton"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:paddingHorizontal="40dp"
         android:paddingVertical="5dp"
-        android:background="?attr/lightButton"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
             android:id="@+id/change_theme"
-            android:layout_weight="1"
             style="@style/forButton"
+            android:layout_weight="1"
             android:src="?attr/themeSelector"
-            />
+            android:contentDescription="@string/change_color_theme" />
 
         <ImageButton
             android:id="@+id/refresh"
-            android:layout_weight="1"
             style="@style/forButton"
+            android:layout_weight="1"
             android:src="@drawable/ic_baseline_refresh_24"
-            />
+            android:contentDescription="@string/refresh_device_list" />
 
         <ImageButton
             android:id="@+id/add_device"
-            android:layout_weight="1"
             style="@style/forButton"
+            android:layout_weight="1"
             android:src="@drawable/ic_baseline_add_24"
-            />
+            android:contentDescription="@string/add_device_to_list" />
 
     </LinearLayout>
 

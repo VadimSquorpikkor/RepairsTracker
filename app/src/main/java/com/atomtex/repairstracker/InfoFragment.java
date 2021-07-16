@@ -15,8 +15,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import static com.atomtex.repairstracker.Dictionary.getStringById;
-
 public class InfoFragment extends Fragment {
 
     View view;

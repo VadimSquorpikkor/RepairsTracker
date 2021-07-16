@@ -8,13 +8,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import static com.atomtex.repairstracker.ThemeUtils.THEME_DARK;
 import static com.atomtex.repairstracker.ThemeUtils.THEME_LIGHT;
@@ -25,6 +24,7 @@ public class MainFragment extends Fragment {
     private MainViewModel mViewModel;
     private RecyclerView foundUnitRecycler;
     private ImageView logoImage;
+    SwipeRefreshLayout refreshView;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -52,6 +52,8 @@ public class MainFragment extends Fragment {
         view.findViewById(R.id.refresh).setOnClickListener(v -> refresh());
         view.findViewById(R.id.add_device).setOnClickListener(v -> openAddDeviceDialog());
 
+        refreshView = view.findViewById(R.id.refreshView);
+
         //Чтобы пользоваться свайпом, добавляем
         //2-й параметр -- это направление
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
@@ -70,6 +72,9 @@ public class MainFragment extends Fragment {
         //присваиваем хелпер к ресайклеру
         itemTouchHelper.attachToRecyclerView(foundUnitRecycler);
 
+        // refresh RecyclerView
+        refreshView.setOnRefreshListener(this::refresh);
+
         return view;
     }
 
@@ -78,7 +83,7 @@ public class MainFragment extends Fragment {
     }
 
     private void refresh() {
-
+        mViewModel.initializeObserveList();
     }
 
     /**По тапу на иконку устанавливает нужную тему: светлую, если сейчас темная, и наоборот*/
@@ -100,6 +105,7 @@ public class MainFragment extends Fragment {
         unitAdapter.setOnItemClickListener(this::showEvents);
         foundUnitRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         foundUnitRecycler.setAdapter(unitAdapter);
+        refreshView.setRefreshing(false);
     }
 
     private void showEvents(int position) {

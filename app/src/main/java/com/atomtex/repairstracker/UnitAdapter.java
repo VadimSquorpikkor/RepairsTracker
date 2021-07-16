@@ -8,9 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Locale;
-
-import static com.atomtex.repairstracker.Dictionary.getStringById;
 import static com.atomtex.repairstracker.Utils.EMPTY_VALUE;
 import static com.atomtex.repairstracker.Utils.daysPassed;
 import static com.atomtex.repairstracker.Utils.getRightDateAndTime;

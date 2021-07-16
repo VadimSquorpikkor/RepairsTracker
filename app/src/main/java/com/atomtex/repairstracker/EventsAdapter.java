@@ -6,9 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
-import static com.atomtex.repairstracker.Dictionary.getStringById;
 import static com.atomtex.repairstracker.Utils.getRightDate;
 import static com.atomtex.repairstracker.Utils.getRightTime;
 
