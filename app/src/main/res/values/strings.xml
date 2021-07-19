@@ -3,7 +3,7 @@
     <string name="app_logo">App logo</string>
     <string name="nothing_found">Nothing found</string>
     <string name="empty_value">- - -</string>
-    <string name="serial_number">Serial number</string>
+    <string name="serial_number">Serial number:</string>
     <string name="find_number">Search</string>
 
 
@@ -42,8 +42,10 @@
     <string name="BDKG04">BDKG-04</string>
     <string name="serial_number_prefix">S/N %s</string>
     <string name="days">%d d.</string>
+    <!-- ————————————————————————————————————————————————————— -->
     <string name="change_color_theme">Change color theme</string>
     <string name="refresh_device_list">Refresh device list</string>
     <string name="add_device_to_list">Add device to list</string>
-    <!-- ————————————————————————————————————————————————————— -->
+    <string name="repair_is_complete">Repair completed</string>
+    <string name="days_in_repair">Days under repair:</string>
 </resources>

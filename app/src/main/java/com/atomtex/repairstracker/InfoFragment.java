@@ -3,7 +3,6 @@ package com.atomtex.repairstracker;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +21,8 @@ public class InfoFragment extends Fragment {
     TextView deviceName;
     TextView serial;
     RecyclerView events;
+    TextView isComplete;
+    TextView daysPassed;
 
     public InfoFragment() {
     }
@@ -39,12 +40,12 @@ public class InfoFragment extends Fragment {
         deviceName = view.findViewById(R.id.device_name);
         serial = view.findViewById(R.id.serial_number);
         events = view.findViewById(R.id.recycler_view_events);
+        isComplete = view.findViewById(R.id.is_complete);
+        isComplete.setVisibility(View.GONE);
+        daysPassed = view.findViewById(R.id.daysPassedValue);
 
-        final MutableLiveData<DUnit> selectedUnits = mViewModel.getSelectedUnit();
-        selectedUnits.observe(getViewLifecycleOwner(), this::insertDataToFields);
-
-        final MutableLiveData<ArrayList<DEvent>> unitEvents = mViewModel.getEventsForSelectedUnit();
-        unitEvents.observe(getViewLifecycleOwner(), this::updateAdapter);
+        mViewModel.getSelectedUnit().observe(getViewLifecycleOwner(), this::insertDataToFields);
+        mViewModel.getEventsForSelectedUnit().observe(getViewLifecycleOwner(), this::updateAdapter);
 
         return view;
     }
@@ -59,5 +60,7 @@ public class InfoFragment extends Fragment {
 //        deviceName.setText(getStringById(unit.getName()));
         deviceName.setText(unit.getName());
         serial.setText(Utils.getRightValue(unit.getSerial()));
+        isComplete.setVisibility(unit.isComplete()?View.VISIBLE:View.GONE);
+        daysPassed.setText(String.valueOf(unit.daysPassed()));
     }
 }

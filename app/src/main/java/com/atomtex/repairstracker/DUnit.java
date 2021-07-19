@@ -21,7 +21,8 @@ public class DUnit {
     private String location;
     private String employee; //Фамилия ответственного
 
-    Date date;
+    private Date date;
+    private Date closeDate;
 
 
     public DUnit() {
@@ -50,14 +51,25 @@ public class DUnit {
         this.date = date;
     }
 
-    /**Возвращает true, если это ремонтное устройство*/
-    public boolean isRepairUnit() {
-        return type.equals(REPAIR_TYPE);
+    public Date getCloseDate() {
+        return closeDate;
     }
 
-    /**Возвращает true, если это серийное устройство*/
-    public boolean isSerialUnit() {
-        return type.equals(SERIAL_TYPE);
+    public void setCloseDate(Date closeDate) {
+        this.closeDate = closeDate;
+    }
+
+    //Если юнит завершен, то у него появляется дата закрытия
+    public boolean isComplete() {
+        return this.closeDate!=null;
+    }
+
+    /**Сколько дней юнит находится в серии/ремонте. Если юнит не закрыт, то считается количество
+     * дней от начала ремонта/серии до сегодняшнего дня, если юнит закрыт — до дня закрытия*/
+    public int daysPassed() {
+        if (this.date==null) return 0;
+        Date end = closeDate==null?new Date():closeDate;
+        return (int)((end.getTime()-this.date.getTime())/(1000*60*60*24));
     }
 
     /**Имя последнего статуса устройства*/

@@ -6,6 +6,7 @@ public class Constant {
 
     public static final String TABLE_UNITS = "units";
     public static final String UNIT_DATE = "date";
+    public static final String UNIT_CLOSE_DATE = "close_date";
     public static final String UNIT_DESCRIPTION = "description";
     public static final String UNIT_DEVICE = "device_id"; //todo возможно в имени стринга и не нужен "_ID", только в значении
     public static final String UNIT_EMPLOYEE = "employee_id";

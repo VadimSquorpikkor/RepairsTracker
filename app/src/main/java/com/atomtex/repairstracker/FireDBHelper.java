@@ -21,6 +21,7 @@ import static com.atomtex.repairstracker.Constant.TABLE_EVENTS;
 import static com.atomtex.repairstracker.Constant.TABLE_NAMES;
 import static com.atomtex.repairstracker.Constant.TABLE_UNITS;
 import static com.atomtex.repairstracker.Constant.TAG;
+import static com.atomtex.repairstracker.Constant.UNIT_CLOSE_DATE;
 import static com.atomtex.repairstracker.Constant.UNIT_DATE;
 import static com.atomtex.repairstracker.Constant.UNIT_DEVICE;
 import static com.atomtex.repairstracker.Constant.UNIT_ID;
@@ -77,6 +78,8 @@ class FireDBHelper {
                             unit.setState(String.valueOf(document.get(UNIT_STATE)));
                             Timestamp timestamp = (Timestamp) document.get(UNIT_DATE);
                             if (timestamp != null) unit.setDate(timestamp.toDate());
+                            Timestamp closeTimestamp = (Timestamp) document.get(UNIT_CLOSE_DATE);
+                            if (closeTimestamp != null) unit.setCloseDate(closeTimestamp.toDate());
 
                             //JOIN------------------------------------------------------------------
                             String state = String.valueOf(document.get(UNIT_STATE));

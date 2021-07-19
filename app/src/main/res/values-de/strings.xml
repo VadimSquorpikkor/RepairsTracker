@@ -3,7 +3,7 @@
     <string name="app_logo">App-Logo</string>
     <string name="nothing_found">Nichts gefunden</string>
     <string name="empty_value">- - -</string>
-    <string name="serial_number">Ordnungsnummer</string>
+    <string name="serial_number">Ordnungsnummer:</string>
     <string name="find_number">Suche</string>
 
 
@@ -43,4 +43,9 @@
     <string name="serial_number_prefix">ON %s</string>
     <string name="days">%d t.</string>
     <!-- ————————————————————————————————————————————————————— -->
+    <string name="change_color_theme">Farbthema ändern</string>
+    <string name="refresh_device_list">Geräteliste aktualisieren</string>
+    <string name="add_device_to_list">Add device to list</string>
+    <string name="repair_is_complete">Gerät zur Liste hinzufügen</string>
+    <string name="days_in_repair">Tage in Reparatur:</string>
 </resources>

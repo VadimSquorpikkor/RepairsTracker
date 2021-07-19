@@ -3,7 +3,7 @@
     <string name="app_logo">Logo dell\'applicazione </string>
     <string name="nothing_found">Non abbiamo trovato nulla</string>
     <string name="empty_value">- - -</string>
-    <string name="serial_number">Numero di serie</string>
+    <string name="serial_number">Numero di serie:</string>
     <string name="find_number">Ricerca</string>
 
 
@@ -43,4 +43,9 @@
     <string name="serial_number_prefix">N %s</string>
     <string name="days">%d g.</string>
     <!-- ————————————————————————————————————————————————————— -->
+    <string name="change_color_theme">Cambia tema colore</string>
+    <string name="refresh_device_list">Aggiorna l\'elenco dei dispositivi</string>
+    <string name="add_device_to_list">Add device to list</string>
+    <string name="repair_is_complete">Aggiungi dispositivo all\'elenco</string>
+    <string name="days_in_repair">Giorni in riparazione:</string>
 </resources>

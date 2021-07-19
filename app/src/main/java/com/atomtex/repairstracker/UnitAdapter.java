@@ -49,21 +49,18 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.DUnitViewHolde
     public void onBindViewHolder(@NonNull DUnitViewHolder holder, int position) {
         DUnit unit = units.get(position);
 
-//        String state = getStringById(unit.getState());
-//        String name = getStringById(unit.getName());
         String state = unit.getState();
         String name = unit.getName();
-
-//        if (Locale.)
+        boolean isComplete = unit.isComplete();
 
         holder.tState.setText(state);
         holder.tName.setText(name);
         holder.tSerial.setText(String.format(App.getContext().getString(R.string.serial_number_prefix), Utils.getRightValue(unit.getSerial())));
+        holder.tIsComplete.setVisibility(isComplete?View.VISIBLE:View.GONE);
 
         if (unit.getDate()!=null){
             holder.tDate.setText(getRightDateAndTime(unit.getDate().getTime()));
-            holder.tDatePassed.setText(String.format(App.getContext().getString(R.string.days), daysPassed(unit.getDate())));
-//            holder.tDatePassed.setText(String.format("%ddays", daysPassed(unit.getDate())));
+            holder.tDatePassed.setText(String.format(App.getContext().getString(R.string.days), unit.daysPassed()));
         } else {
             holder.tDate.setText(EMPTY_VALUE);
             holder.tDatePassed.setText("");
@@ -82,6 +79,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.DUnitViewHolde
         private final TextView tState;
         private final TextView tDate;
         private final TextView tDatePassed;
+        private final TextView tIsComplete;
 
         public DUnitViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -90,6 +88,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.DUnitViewHolde
             tState = itemView.findViewById(R.id.textState);
             tDate = itemView.findViewById(R.id.textDate);
             tDatePassed = itemView.findViewById(R.id.textDatePassed);
+            tIsComplete = itemView.findViewById(R.id.isComplete);
 
             //для работы OnNoteClickListener
             itemView.setOnClickListener(view -> {

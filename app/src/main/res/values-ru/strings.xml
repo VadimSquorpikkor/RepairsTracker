@@ -3,7 +3,7 @@
     <string name="app_logo">Логотип приложения</string>
     <string name="nothing_found">Ничего не найдено</string>
     <string name="empty_value">- - -</string>
-    <string name="serial_number">Серийный номер</string>
+    <string name="serial_number">Серийный номер:</string>
     <string name="find_number">Найти</string>
 
 
@@ -43,4 +43,9 @@
     <string name="serial_number_prefix">№ %s</string>
     <string name="days">%d д.</string>
     <!-- ————————————————————————————————————————————————————— -->
+    <string name="change_color_theme">Изменить цветовую тему</string>
+    <string name="refresh_device_list">Обновить список устройств</string>
+    <string name="add_device_to_list">Добавить устройство в список</string>
+    <string name="repair_is_complete">Ремонт завершен</string>
+    <string name="days_in_repair">Дней в ремонте:</string>
 </resources>
