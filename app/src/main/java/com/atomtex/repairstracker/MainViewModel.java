@@ -10,14 +10,18 @@ import androidx.lifecycle.MutableLiveData;
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
-import static com.atomtex.repairstracker.Constant.TAG;
-import static com.atomtex.repairstracker.SaveLoad.loadStringArray;
-import static com.atomtex.repairstracker.SaveLoad.saveArray;
+import static com.atomtex.repairstracker.utils.Constant.TAG;
+import static com.atomtex.repairstracker.utils.SaveLoad.loadStringArray;
+import static com.atomtex.repairstracker.utils.SaveLoad.saveArray;
+
+import com.atomtex.repairstracker.entities.DEvent;
+import com.atomtex.repairstracker.entities.DUnit;
+import com.atomtex.repairstracker.fragments.InfoFragment;
 
 public class MainViewModel extends AndroidViewModel {
 
     private final FireDBHelper dbh;
-    public static final String SERIAL_LIST = "serial_list";
+    public static final String TRACK_ID_LIST = "track_id_list";
 //--------------------------------------------------------------------------------------------------
     private final MutableLiveData<ArrayList<DUnit>> unitListToObserve;
     private final MutableLiveData<DUnit> selectedUnit;
@@ -26,11 +30,9 @@ public class MainViewModel extends AndroidViewModel {
     public MutableLiveData<ArrayList<DUnit>> getUnitListToObserve() {
         return unitListToObserve;
     }
-
     public MutableLiveData<DUnit> getSelectedUnit() {
         return selectedUnit;
     }
-
     public MutableLiveData<ArrayList<DEvent>> getEventsForSelectedUnit() {
         return eventsForSelectedUnit;
     }
@@ -44,14 +46,16 @@ public class MainViewModel extends AndroidViewModel {
         initializeObserveList();
     }
 //--------------------------------------------------------------------------------------------------
-    /**При загрузке приложения загружает сохраненный ранее список серийных номеров. Если список
+    /**При загрузке приложения загружает сохраненный ранее список trackId номеров. Если список
      * не пустой, то загружает из БД устройства по серийникам из этого списка. Т.е. при старте
      * программы отображается список отслеживаемых устройств, добавленных ранее*/
-    void initializeObserveList() {
-        //получаем сохраненный ранее в преференсах список серийных номеров
-        ArrayList<String> serials = loadStringArray(SERIAL_LIST);
-        //по списку серийников загружаем из БД устройства
-        for (String s:serials) {
+    public void initializeObserveList() {
+        Log.e(TAG, "****************initializeObserveList********************");
+        //получаем сохраненный ранее в преференсах список trackId номеров
+        ArrayList<String> trackIds = loadStringArray(TRACK_ID_LIST);
+        //по списку trackId загружаем из БД устройства
+        for (String s:trackIds) {
+            Log.e(TAG, "****************initializeObserveList: "+s);
             addUnitToObserveCollection(s);
         }
     }
@@ -59,8 +63,8 @@ public class MainViewModel extends AndroidViewModel {
     /**
      * Метод получает серийный номер юнита и проверяет наличие в БД. Если такой есть, то добавляет
      * юнит в коллекцию отслеживаемых программой юнитов */
-    public void addUnitToObserveCollection(String serial) {
-        dbh.getUnitBySerialAndAddToList(unitListToObserve, serial);
+    public void addUnitToObserveCollection(String trackId) {
+        dbh.getUnitByTrackIdAndAddToList(unitListToObserve, trackId);
     }
 
     /**Загружает из БД список событий для выбранного устройства*/
@@ -75,24 +79,25 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     /**При успешном добавлении в список отлеживаемых устройств нового устройства сохраняет в
-     * SharedPreferences список серийных номеров этих устройств. Будет необходим для восстановления
+     * SharedPreferences список trackId этих устройств. Будет необходим для восстановления
      * списка после перезагрузке приложения*/
-    void updateUnitsSerialNumbersList() {
-        Log.e(TAG, "updateUnitsSerialNumbersList: ");
+    public void updateUnitsTrackIdNumbersList() {
+        Log.e(TAG, "****************updateUnitsTrackIdNumbersList****************");
         if (unitListToObserve.getValue()==null)return;
-        ArrayList<String> serialList = new ArrayList<>();//обнуление
+        ArrayList<String> trackIdList = new ArrayList<>();//обнуление
         String s;
         for (DUnit u:unitListToObserve.getValue()) {
-            s = u.getSerial();
-            if (!serialList.contains(s)) serialList.add(s);
+            s = u.getTrackId();
+            if (!trackIdList.contains(s)) trackIdList.add(s);
+            Log.e(TAG, "****************updateUnitsTrackIdNumbersList: "+s);
         }
-        saveArray(SERIAL_LIST, serialList);
+        saveArray(TRACK_ID_LIST, trackIdList);
     }
 
     /**Удаляет устройство из списка и сохраняет получившийся список*/
-    void removeItemFromList(int position) {
+    public void removeItemFromList(int position) {
         unitListToObserve.getValue().remove(position);
         unitListToObserve.setValue(unitListToObserve.getValue());//update
-        updateUnitsSerialNumbersList();
+        updateUnitsTrackIdNumbersList();
     }
 }

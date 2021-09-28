@@ -3,6 +3,7 @@
     <string name="app_logo">Logo de l\'application</string>
     <string name="nothing_found">Rien n\'a été trouvé</string>
     <string name="empty_value">- - -</string>
+    <string name="track_id">Track ID:</string>
     <string name="serial_number">Numéro de série:</string>
     <string name="find_number">Rechercher</string>
 

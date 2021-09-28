@@ -16,4 +16,10 @@
     <color name="colorPrimary">#424242</color>
     <color name="colorPrimaryDark">#212121</color>
     <color name="colorBackground">#303030</color>
+
+    <color name="lightOrange">#FF9800</color>
+    <color name="blueLightLight">#E6E8FF</color>
+    <color name="blueLight">#3F51B5</color>
+    <color name="blueDark">#303F9F</color>
+    <color name="blueNice">#002696</color>
 </resources>

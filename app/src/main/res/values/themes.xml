@@ -1,17 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
+<!--    <style name="Theme.Leonardo" parent="Theme.MaterialComponents.DayNight.NoActionBar">-->
     <style name="Theme.Leonardo" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="smallTextColor">@color/black</item>
-        <item name="backgroundColor">@color/colorLightGray</item>
+        <item name="backgroundColor">@color/blueLightLight</item>
         <item name="coloredText">@color/purple_700</item>
         <item name="dialogBackground">@color/colorLightGray</item>
         <item name="lightButton">@color/purple_700</item>
         <item name="lightButtonPressed">@color/colorPrimary</item>
         <item name="darkButton">@color/colorLightGray</item>
         <item name="editBackground">@color/white</item>
-        <item name="logoImage">@mipmap/logo_big</item>
+        <item name="logoImage">@mipmap/logo_big_grayscale</item>
         <item name="themeSelector">@drawable/ic_baseline_nights_stay_24</item>
-
+        <item name="recyclerItemColor">@color/white</item>
     </style>
 
 
@@ -26,6 +27,23 @@
         <item name="editBackground">@color/colorPrimary</item>
         <item name="logoImage">@mipmap/logo_big_grayscale</item>
         <item name="themeSelector">@drawable/ic_baseline_wb_sunny_24</item>
+        <item name="recyclerItemColor">@color/colorPrimary</item>
+
+    </style>
+
+
+    <style name="Theme.Leonardo.Gray" parent="Theme.AppCompat.NoActionBar">
+        <item name="smallTextColor">@color/black</item>
+        <item name="backgroundColor">@color/colorLightGray</item>
+        <item name="coloredText">@color/black</item><!--@color/purple_700-->
+        <item name="dialogBackground">@color/colorLightGray</item>
+        <item name="lightButton">@color/colorPrimary</item><!--@color/purple_700-->
+        <item name="lightButtonPressed">@color/colorPrimary</item>
+        <item name="darkButton">@color/colorPrimary</item>
+        <item name="editBackground">@color/colorPrimaryDark</item>
+        <item name="logoImage">@mipmap/logo_big_color</item>
+        <item name="themeSelector">@drawable/ic_baseline_nights_stay_24</item>
+        <item name="recyclerItemColor">@color/white</item>
 
     </style>
 </resources>

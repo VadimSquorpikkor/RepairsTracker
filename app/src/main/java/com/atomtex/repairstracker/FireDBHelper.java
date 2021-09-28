@@ -3,6 +3,9 @@ package com.atomtex.repairstracker;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
+
+import com.atomtex.repairstracker.entities.DEvent;
+import com.atomtex.repairstracker.entities.DUnit;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -10,24 +13,27 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
-import static com.atomtex.repairstracker.Constant.EVENT_DATE;
-import static com.atomtex.repairstracker.Constant.EVENT_LOCATION;
-import static com.atomtex.repairstracker.Constant.EVENT_STATE;
-import static com.atomtex.repairstracker.Constant.EVENT_UNIT;
-import static com.atomtex.repairstracker.Constant.TABLE_EVENTS;
-import static com.atomtex.repairstracker.Constant.TABLE_NAMES;
-import static com.atomtex.repairstracker.Constant.TABLE_UNITS;
-import static com.atomtex.repairstracker.Constant.TAG;
-import static com.atomtex.repairstracker.Constant.UNIT_CLOSE_DATE;
-import static com.atomtex.repairstracker.Constant.UNIT_DATE;
-import static com.atomtex.repairstracker.Constant.UNIT_DEVICE;
-import static com.atomtex.repairstracker.Constant.UNIT_ID;
-import static com.atomtex.repairstracker.Constant.UNIT_LOCATION;
-import static com.atomtex.repairstracker.Constant.UNIT_SERIAL;
-import static com.atomtex.repairstracker.Constant.UNIT_STATE;
+import static com.atomtex.repairstracker.utils.Constant.EVENT_DATE;
+import static com.atomtex.repairstracker.utils.Constant.EVENT_LOCATION;
+import static com.atomtex.repairstracker.utils.Constant.EVENT_STATE;
+import static com.atomtex.repairstracker.utils.Constant.EVENT_UNIT;
+import static com.atomtex.repairstracker.utils.Constant.TABLE_EVENTS;
+import static com.atomtex.repairstracker.utils.Constant.TABLE_NAMES;
+import static com.atomtex.repairstracker.utils.Constant.TABLE_UNITS;
+import static com.atomtex.repairstracker.utils.Constant.TAG;
+import static com.atomtex.repairstracker.utils.Constant.UNIT_CLOSE_DATE;
+import static com.atomtex.repairstracker.utils.Constant.UNIT_DATE;
+import static com.atomtex.repairstracker.utils.Constant.UNIT_DEVICE;
+import static com.atomtex.repairstracker.utils.Constant.UNIT_ID;
+import static com.atomtex.repairstracker.utils.Constant.UNIT_LOCATION;
+import static com.atomtex.repairstracker.utils.Constant.UNIT_SERIAL;
+import static com.atomtex.repairstracker.utils.Constant.UNIT_STATE;
+import static com.atomtex.repairstracker.utils.Constant.UNIT_TRACK_ID;
+import static com.atomtex.repairstracker.utils.Utils.isEmptyOrNull;
 
 class FireDBHelper {
 
@@ -38,8 +44,8 @@ class FireDBHelper {
     }
 
     /**
-     * Метол получает серийный номер устройства, находит в БД устройство (может быть и не одно) с
-     * таким серийником и добавляет в MutableLiveData<ArrayList<DUnit>> unitList список найденных
+     * Метол получает trackId устройства, находит в БД устройство (может быть и не одно) с
+     * таким trackId и добавляет в MutableLiveData<ArrayList<DUnit>> unitList список найденных
      * устройств. На unitList подписан RecyclerView, при изменении в unitList сразу же автоматом
      * в UI формируется список найденных устройств: добавленные ранее + только что найденные
      * <p>
@@ -49,8 +55,8 @@ class FireDBHelper {
      * значит чтобы получить имя этого устройства на русском языке не нужно получать из БД само устройство
      * (это тоже сработает, но это лишнее действие), а сразу из таблицы имен получить объект имен с
      * идентификатором АТ6130 и у него получить имя по полю "ru" (names->AT6130->ru)
-     *
-     *
+     * <p>
+     * <p>
      * Ещё одна мулька: в Firestore нет JOIN (потому как нерелеационная БД), поэтому сделан руками:
      * сразу загружаем список юнитов, а потом по уже загруженному списку юнитов делаю запросы в БД,
      * чтобы заменить идентификаторы на имена на выбранном языке: "rep_r_prinyat" ->  "Accepted for repair"
@@ -58,8 +64,8 @@ class FireDBHelper {
      * на самом деле он выполняется уже после того, как присвоились значения, объект unit добавлен
      * в unitList, а сам unitList помещен в MutableLiveData
      */
-    void getUnitBySerialAndAddToList(MutableLiveData<ArrayList<DUnit>> unitList, String serial) {
-        Query query = db.collection(TABLE_UNITS).whereEqualTo(UNIT_SERIAL, serial);
+    void getUnitByTrackIdAndAddToList(MutableLiveData<ArrayList<DUnit>> unitList, String trackId) {
+        Query query = db.collection(TABLE_UNITS).whereEqualTo(UNIT_TRACK_ID, trackId);
 
         query.get()
                 .addOnCompleteListener(task -> {
@@ -68,7 +74,7 @@ class FireDBHelper {
                         if (querySnapshot == null) return;
                         if (unitList == null) return;
                         ArrayList<DUnit> list = new ArrayList<>();
-                        if (unitList.getValue()!=null) list.addAll(unitList.getValue());
+                        if (unitList.getValue() != null) list.addAll(unitList.getValue());
                         for (DocumentSnapshot document : task.getResult()) {
                             DUnit unit = new DUnit();
                             unit.setName(String.valueOf(document.get(UNIT_DEVICE)));
@@ -76,6 +82,7 @@ class FireDBHelper {
                             unit.setLocation(String.valueOf(document.get(UNIT_LOCATION)));
                             unit.setSerial(String.valueOf(document.get(UNIT_SERIAL)));
                             unit.setState(String.valueOf(document.get(UNIT_STATE)));
+                            unit.setTrackId(String.valueOf(document.get(UNIT_TRACK_ID)));
                             Timestamp timestamp = (Timestamp) document.get(UNIT_DATE);
                             if (timestamp != null) unit.setDate(timestamp.toDate());
                             Timestamp closeTimestamp = (Timestamp) document.get(UNIT_CLOSE_DATE);
@@ -83,27 +90,34 @@ class FireDBHelper {
 
                             //JOIN------------------------------------------------------------------
                             String state = String.valueOf(document.get(UNIT_STATE));
-                            db.collection(TABLE_NAMES).document(state).get()
-                                    .addOnCompleteListener(task1 -> {
-                                        unit.setState(getStringFromSnapshot(task1, state));
-                                        updateLiveData(unitList);
-                                    });
+                            if (!isEmptyOrNull(state)) {
+                                db.collection(TABLE_NAMES).document(state).get()
+                                        .addOnCompleteListener(task1 -> {
+                                            unit.setState(getStringFromSnapshot(task1, state));
+                                            updateLiveData(unitList);
+                                        });
+                            }
                             String location = String.valueOf(document.get(UNIT_LOCATION));
-                            db.collection(TABLE_NAMES).document(location).get()
-                                    .addOnCompleteListener(task2 -> {
-                                        unit.setLocation(getStringFromSnapshot(task2, location));
-                                        updateLiveData(unitList);
-                                    });
+                            if (!isEmptyOrNull(location)) {
+                                db.collection(TABLE_NAMES).document(location).get()
+                                        .addOnCompleteListener(task2 -> {
+                                            unit.setLocation(getStringFromSnapshot(task2, location));
+                                            updateLiveData(unitList);
+                                        });
+                            }
                             String name = String.valueOf(document.get(UNIT_DEVICE));
-                            db.collection(TABLE_NAMES).document(name).get()
-                                    .addOnCompleteListener(task3 -> {
-                                        unit.setName(getStringFromSnapshot(task3, name));
-                                        updateLiveData(unitList);
-                                    });
+                            if (!isEmptyOrNull(name)) {
+                                db.collection(TABLE_NAMES).document(name).get()
+                                        .addOnCompleteListener(task3 -> {
+                                            unit.setName(getStringFromSnapshot(task3, name));
+                                            updateLiveData(unitList);
+                                        });
+                            }
                             //----------------------------------------------------------------------
 
-                            int position = serialInListPosition(unitList.getValue(), serial);
-                            if (position != -1) unitList.getValue().set(position, unit);//обновить, если такой юнит уже есть в списке
+                            int position = trackIdInListPosition(unitList.getValue(), trackId);
+                            if (position != -1)
+                                unitList.getValue().set(position, unit);//обновить, если такой юнит уже есть в списке
                             else list.add(unit);//а если нет, то добавить
                         }
                         unitList.setValue(list);
@@ -113,29 +127,35 @@ class FireDBHelper {
                 });
     }
 
-    /**Если юнит с таким серийником уже есть в списке, то метод возвращает его позицию в списке, иначе возвращает -1*/
-    private int serialInListPosition(ArrayList<DUnit> list, String serial) {
-        if (list == null || list.size()==0) return -1;
+    /**
+     * Если юнит с таким trackId уже есть в списке, то метод возвращает его позицию в списке, иначе возвращает -1
+     */
+    private int trackIdInListPosition(ArrayList<DUnit> list, String trackId) {
+        if (list == null || list.size() == 0) return -1;
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getSerial().equals(serial)) return i;
+            if (list.get(i).getSerial().equals(trackId)) return i;
         }
         return -1;
     }
 
-    /**Если юнит с таким серийником уже есть в списке, то метод возвращает true, иначе возвращает false*/
+    /**
+     * Если юнит с таким серийником уже есть в списке, то метод возвращает true, иначе возвращает false
+     */
     @SuppressWarnings("unused")
     private boolean serialAlreadyInList(ArrayList<DUnit> list, String serial) {
-        if (list == null || list.size()==0) return false;
-        for (DUnit unit:list) {
+        if (list == null || list.size() == 0) return false;
+        for (DUnit unit : list) {
             if (unit.getSerial().equals(serial)) return true;
         }
         return false;
     }
 
-    /**Для перевода в нужный язык. Загружает из таблицы слово на всех языках и выбирает значение
+    /**
+     * Для перевода в нужный язык. Загружает из таблицы слово на всех языках и выбирает значение
      * для языка, выбранного в телефоне (lang) и значение на английском. Если слово на языке телефона
      * есть, то возвращаем его, если нет или равен "", то антлийское, если нет и английского, то значение по
-     * умолчанию (идентификатор)*/
+     * умолчанию (идентификатор)
+     */
     String getStringFromSnapshot(Task<DocumentSnapshot> task, String defValue) {
         if (task.isSuccessful()) {
             DocumentSnapshot documentSnapshot = task.getResult();
@@ -164,12 +184,16 @@ class FireDBHelper {
         return defValue;
     }
 
-    /**Тыркает MutableLiveData, чтобы обновил UI*/
+    /**
+     * Тыркает MutableLiveData, чтобы обновил UI
+     */
     void updateLiveData(MutableLiveData<ArrayList<DUnit>> data) {
         data.setValue(data.getValue());
     }
 
-    /**Тыркает MutableLiveData, чтобы обновил UI*/
+    /**
+     * Тыркает MutableLiveData, чтобы обновил UI
+     */
     void updateLiveData2(MutableLiveData<ArrayList<DEvent>> data) {
         data.setValue(data.getValue());
     }
@@ -195,17 +219,21 @@ class FireDBHelper {
 
                     //JOIN
                     String state = String.valueOf(q.get(EVENT_STATE));
-                    db.collection(TABLE_NAMES).document(state).get()
-                            .addOnCompleteListener(task1 -> {
-                                event.setState(getStringFromSnapshot(task1, state));
-                                updateLiveData2(events);
-                            });
+                    if (!isEmptyOrNull(state)) {
+                        db.collection(TABLE_NAMES).document(state).get()
+                                .addOnCompleteListener(task1 -> {
+                                    event.setState(getStringFromSnapshot(task1, state));
+                                    updateLiveData2(events);
+                                });
+                    }
                     String location = String.valueOf(q.get(EVENT_LOCATION));
-                    db.collection(TABLE_NAMES).document(location).get()
-                            .addOnCompleteListener(task2 -> {
-                                event.setLocation(getStringFromSnapshot(task2, location));
-                                updateLiveData2(events);
-                            });
+                    if (!isEmptyOrNull(location)) {
+                        db.collection(TABLE_NAMES).document(location).get()
+                                .addOnCompleteListener(task2 -> {
+                                    event.setLocation(getStringFromSnapshot(task2, location));
+                                    updateLiveData2(events);
+                                });
+                    }
 
                     newEvents.add(event);
                 }

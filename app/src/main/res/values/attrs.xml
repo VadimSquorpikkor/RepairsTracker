@@ -12,6 +12,7 @@
     <attr name="lightButtonPressed" format="color"/>
     <attr name="darkButton" format="color"/>
     <attr name="editBackground" format="color"/>
+    <attr name="recyclerItemColor" format="color"/>
 
     <attr name="logoImage" format="reference"/>
     <attr name="themeSelector" format="reference"/>

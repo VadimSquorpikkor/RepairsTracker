@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InfoFragment"
+    tools:context=".fragments.InfoFragment"
     android:background="?attr/backgroundColor">
 
     <TextView
@@ -17,6 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/device_name"
         android:text="@string/repair_is_complete"
         android:layout_marginTop="20dp"
         tools:text="Ремонт завершен" />
@@ -25,13 +26,13 @@
         android:id="@+id/device_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_margin="8dp"
         android:textColor="?attr/coloredText"
         android:textSize="26sp"
+        app:layout_constraintTop_toBottomOf="@id/is_complete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/is_complete"
-        android:layout_margin="20dp"
+        tools:layout_editor_absoluteY="75dp"
         tools:text="AT6130" />
 
 
@@ -57,10 +58,41 @@
         android:layout_margin="10dp"
         android:layout_marginEnd="20dp"
         android:gravity="start"
+        android:textColor="?attr/smallTextColor"
         app:layout_constraintLeft_toRightOf="@+id/textViewSerial2"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/device_name"
         tools:text="6789" />
+
+
+    <TextView
+        android:id="@+id/trackIdLabel"
+        android:textColor="?attr/coloredText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginStart="20dp"
+        android:gravity="end"
+        android:text="@string/track_id"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/trackIdText"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSerial2" />
+
+    <TextView
+        android:id="@+id/trackIdText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="start"
+        android:textColor="?attr/smallTextColor"
+        app:layout_constraintLeft_toRightOf="@+id/trackIdLabel"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSerial2"
+        tools:text="1632394040" />
+
 
     <TextView
         android:id="@+id/textViewDaysPassed"
@@ -75,7 +107,7 @@
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/daysPassedValue"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSerial2" />
+        app:layout_constraintTop_toBottomOf="@+id/trackIdLabel" />
 
     <TextView
         android:id="@+id/daysPassedValue"
@@ -84,9 +116,10 @@
         android:layout_margin="10dp"
         android:layout_marginEnd="20dp"
         android:gravity="start"
+        android:textColor="?attr/smallTextColor"
         app:layout_constraintLeft_toRightOf="@+id/textViewDaysPassed"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSerial2"
+        app:layout_constraintTop_toBottomOf="@+id/trackIdLabel"
         tools:text="11" />
 
     <androidx.recyclerview.widget.RecyclerView
