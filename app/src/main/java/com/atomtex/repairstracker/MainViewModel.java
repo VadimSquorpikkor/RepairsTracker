@@ -53,6 +53,7 @@ public class MainViewModel extends AndroidViewModel {
         Log.e(TAG, "****************initializeObserveList********************");
         //получаем сохраненный ранее в преференсах список trackId номеров
         ArrayList<String> trackIds = loadStringArray(TRACK_ID_LIST);
+        //////unitListToObserve.setValue(new ArrayList<>());////////////////////////////////////////////////////////////////////
         //по списку trackId загружаем из БД устройства
         for (String s:trackIds) {
             Log.e(TAG, "****************initializeObserveList: "+s);
@@ -99,5 +100,12 @@ public class MainViewModel extends AndroidViewModel {
         unitListToObserve.getValue().remove(position);
         unitListToObserve.setValue(unitListToObserve.getValue());//update
         updateUnitsTrackIdNumbersList();
+    }
+
+    public void refresh() {
+        if (unitListToObserve==null || unitListToObserve.getValue()==null) return;
+        for (DUnit unit:unitListToObserve.getValue()) {
+            dbh.getUnitByIdAndAddToList(unitListToObserve, unit.getId());
+        }
     }
 }

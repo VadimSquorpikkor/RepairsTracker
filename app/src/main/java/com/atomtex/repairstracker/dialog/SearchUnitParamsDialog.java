@@ -2,6 +2,7 @@ package com.atomtex.repairstracker.dialog;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -17,13 +18,14 @@ public class SearchUnitParamsDialog extends BaseDialog {
         super.onCreate(savedInstanceState);
         initializeWithVM(R.layout.dialog_search_unit_param);
         Button searchButton = view.findViewById(R.id.show_button);
-        EditText trackIdEdit = view.findViewById(R.id.editTextTrackId);
-        String trackId = trackIdEdit.getText().toString();
-        searchButton.setOnClickListener(v -> startSearch(trackId));
+        searchButton.setOnClickListener(v -> startSearch());
         return dialog;
     }
 
-    private void startSearch(String trackId) {
+    private void startSearch() {
+        EditText trackIdEdit = view.findViewById(R.id.editTextTrackId);
+        String trackId = trackIdEdit.getText().toString();
+        Log.e("TAG", "♦♦"+trackId);
         mViewModel.addUnitToObserveCollection(trackId);
         dismiss();
     }

@@ -96,7 +96,8 @@ public class MainFragment extends Fragment {
     }
 
     private void refresh() {
-        mViewModel.initializeObserveList();
+//        mViewModel.initializeObserveList();
+        mViewModel.refresh();
     }
 
     /**По тапу на иконку устанавливает нужную тему: светлую, если сейчас темная, и наоборот*/
@@ -113,7 +114,7 @@ public class MainFragment extends Fragment {
         if (list == null) return;
         if (list.size() == 0) {
             logoImage.setVisibility(View.VISIBLE);
-            Toast.makeText(getActivity(), getString(R.string.nothing_found), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), getString(R.string.nothing_found), Toast.LENGTH_SHORT).show();
         } else {
             logoImage.setVisibility(View.GONE);
         }
