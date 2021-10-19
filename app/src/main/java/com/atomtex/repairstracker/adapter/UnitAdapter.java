@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import static com.atomtex.repairstracker.utils.Utils.EMPTY_VALUE;
-import static com.atomtex.repairstracker.utils.Utils.daysPassed;
 import static com.atomtex.repairstracker.utils.Utils.getRightDateAndTime;
 
 import com.atomtex.repairstracker.R;
@@ -57,7 +56,8 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.DUnitViewHolde
         holder.tName.setText(unit.getName());
         holder.tSerial.setText(String.format(App.getContext().getString(R.string.serial_number_prefix), Utils.getRightValue(unit.getSerial())));
         holder.tIsComplete.setVisibility(unit.isComplete()?View.VISIBLE:View.GONE);
-        holder.tTrackId.setText("ID: "+unit.getTrackId());
+        holder.tTrackId.setText(String.format("ID: %s", unit.getTrackId()));
+        holder.tLocation.setText(String.format(" — %s — ", unit.getLocation()));
 
         if (unit.getDate()!=null){
             holder.tDate.setText(getRightDateAndTime(unit.getDate().getTime()));
@@ -82,6 +82,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.DUnitViewHolde
         private final TextView tDatePassed;
         private final TextView tIsComplete;
         private final TextView tTrackId;
+        private final TextView tLocation;
 
         public DUnitViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,6 +93,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.DUnitViewHolde
             tDatePassed = itemView.findViewById(R.id.textDatePassed);
             tIsComplete = itemView.findViewById(R.id.isComplete);
             tTrackId = itemView.findViewById(R.id.textViewTrackId);
+            tLocation = itemView.findViewById(R.id.textLocation);
 
             //для работы OnNoteClickListener
             itemView.setOnClickListener(view -> {

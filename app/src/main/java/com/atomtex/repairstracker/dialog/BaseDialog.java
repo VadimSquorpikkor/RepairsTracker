@@ -40,6 +40,7 @@ class BaseDialog extends DialogFragment {
     }
 
     /**Дать диалогу лэйаут и задать параметры. Добавление ViewModel*/
+    @SuppressWarnings("CommentedOutCode")
     public void initializeWithVM(int layout) {
         dialog = new AlertDialog.Builder(mContext).create();
         //Window window = dialog.getWindow();

@@ -56,20 +56,29 @@
             android:textStyle="italic"
             tools:text="12.04.21"
             android:textColor="?attr/smallTextColor"
-            android:paddingEnd="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textSerial"
             />
 
         <TextView
-            android:id="@+id/textState"
+            android:id="@+id/textLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingEnd="10dp"
             android:textSize="9sp"
             android:textStyle="italic"
             android:textColor="?attr/smallTextColor"
             app:layout_constraintStart_toEndOf="@+id/textDate"
+            app:layout_constraintTop_toBottomOf="@+id/textSerial"
+            tools:text=" — Уч РиР — " />
+
+        <TextView
+            android:id="@+id/textState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="9sp"
+            android:textStyle="italic"
+            android:textColor="?attr/smallTextColor"
+            app:layout_constraintStart_toEndOf="@+id/textLocation"
             app:layout_constraintTop_toBottomOf="@+id/textSerial"
             tools:text="Передано на линейку" />
 
