@@ -15,6 +15,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 
 import static com.atomtex.repairstracker.utils.Constant.EVENT_DATE;
@@ -64,15 +67,15 @@ class FireDBHelper {
      * на самом деле он выполняется уже после того, как присвоились значения, объект unit добавлен
      * в unitList, а сам unitList помещен в MutableLiveData
      *
-     * При старте программы загружаются из БД устройства по TRACKID, а при рефреше загружаются по ID.
-     * Если обновлять по trackId, то это не работает (если разобраться почему, можно будет сократить
-     * код, удалив ненужный второй метод), а если при старте использовать id, то в случае если
-     * добавится устройство с таким же trackId (т.е. в том же комплекте), то пользователь это
-     * устройство уже не увидит. По-хорошему нужно использовать оба метода и для старта и для обновления
-     *
+     * И загрузка и обновление теперь загружает данные из БД по trackId, при этом каждый новый
+     * элемент проверяется по id, есть ли в списке отслеживаемых устройств элемент с таким id: если
+     * нет — добавляется, если есть — обновляются данные. По факту: если данные в отслеживаемых
+     * устройствах изменятся, при старте/обновлении изменения отобразятся; если было добавлено ещё
+     * устройство с таким же trackId (например в ремонте комплект устройств, у них общий trackId),
+     * оно добавится в список; если удалить из списка устройство из комплекта, при старте/обновлении
+     * оно опять отобразится в списке
      */
     void getUnitByTrackIdAndAddToList(MutableLiveData<ArrayList<DUnit>> unitList, String trackId) {
-        Log.e(TAG, "♦♦♦"+trackId);
         Query query = db.collection(TABLE_UNITS).whereEqualTo(UNIT_TRACK_ID, trackId);
 
         query.get()
@@ -123,30 +126,29 @@ class FireDBHelper {
                             }
                             //----------------------------------------------------------------------
 
-                            int position = trackIdInListPosition(unitList.getValue(), trackId);
-                            if (position != -1)
-                                /////unitList.getValue().set(position, unit);//обновить, если такой юнит уже есть в списке
+                            int position = idInListPosition(unitList.getValue(), unit.getId());
+                            if (position != -1) {
+                                Log.e(TAG, "position: "+position+" serial: " + unit.getSerial());
                                 list.set(position, unit);//обновить, если такой юнит уже есть в списке
-                            else list.add(unit);//а если нет, то добавить
+                            } else list.add(unit);//а если нет, то добавить
                         }
+
+//                        list.sort(Comparator.comparing(DUnit::getTrackId));
+
+//                        Collections.sort(list, (o1, o2) -> o1.getTrackId().compareTo(o2.getTrackId()));
+                        Collections.sort(list, (o1, o2) -> o1.getTrackId().compareTo(o2.getTrackId()));
+
+
+                        //list.sort((o1, o2) -> o1.getTrackId().compareTo(o2.getTrackId()));
+
+//                        Collections.sort(list);
+
                         unitList.setValue(list);
                     } else {
                         Log.e(TAG, "Error getting documents: ", task.getException());
                     }
                 });
     }
-
-    /**
-     * Если юнит с таким trackId уже есть в списке, то метод возвращает его позицию в списке, иначе возвращает -1
-     */
-    private int trackIdInListPosition(ArrayList<DUnit> list, String trackId) {
-        if (list == null || list.size() == 0) return -1;
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getTrackId().equals(trackId)) return i;
-        }
-        return -1;
-    }
-
 
     /**
      * Для перевода в нужный язык. Загружает из таблицы слово на всех языках и выбирает значение
@@ -242,84 +244,9 @@ class FireDBHelper {
         });
     }
 
-    public void updateList(MutableLiveData<ArrayList<DUnit>> unitListToObserve) {
-        ArrayList<DUnit> list = unitListToObserve.getValue();
-        for (DUnit unit:list) {
-
-        }
-    }
-
-    void getUnitByIdAndAddToList(MutableLiveData<ArrayList<DUnit>> unitList, String id) {
-        Log.e(TAG, "♦♦♦"+id);
-        Query query = db.collection(TABLE_UNITS).whereEqualTo(UNIT_ID, id);
-
-        query.get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        QuerySnapshot querySnapshot = task.getResult();
-                        if (querySnapshot == null) return;
-                        if (unitList == null) return;
-                        ArrayList<DUnit> list = new ArrayList<>();
-                        if (unitList.getValue() != null) list.addAll(unitList.getValue());
-                        for (DocumentSnapshot document : task.getResult()) {
-                            DUnit unit = new DUnit();
-                            unit.setName(String.valueOf(document.get(UNIT_DEVICE)));
-                            unit.setId(String.valueOf(document.get(UNIT_ID)));
-                            unit.setLocation(String.valueOf(document.get(UNIT_LOCATION)));
-                            unit.setSerial(String.valueOf(document.get(UNIT_SERIAL)));
-                            Log.e(TAG, "♦serial: "+unit.getSerial());
-                            unit.setState(String.valueOf(document.get(UNIT_STATE)));
-                            unit.setTrackId(String.valueOf(document.get(UNIT_TRACK_ID)));
-                            Timestamp timestamp = (Timestamp) document.get(UNIT_DATE);
-                            if (timestamp != null) unit.setDate(timestamp.toDate());
-                            Timestamp closeTimestamp = (Timestamp) document.get(UNIT_CLOSE_DATE);
-                            if (closeTimestamp != null) unit.setCloseDate(closeTimestamp.toDate());
-
-                            //JOIN------------------------------------------------------------------
-                            String state = String.valueOf(document.get(UNIT_STATE));
-                            if (!isEmptyOrNull(state)) {
-                                db.collection(TABLE_NAMES).document(state).get()
-                                        .addOnCompleteListener(task1 -> {
-                                            unit.setState(getStringFromSnapshot(task1, state));
-                                            updateLiveData(unitList);
-                                        });
-                            }
-                            String location = String.valueOf(document.get(UNIT_LOCATION));
-                            if (!isEmptyOrNull(location)) {
-                                db.collection(TABLE_NAMES).document(location).get()
-                                        .addOnCompleteListener(task2 -> {
-                                            unit.setLocation(getStringFromSnapshot(task2, location));
-                                            updateLiveData(unitList);
-                                        });
-                            }
-                            String name = String.valueOf(document.get(UNIT_DEVICE));
-                            if (!isEmptyOrNull(name)) {
-                                db.collection(TABLE_NAMES).document(name).get()
-                                        .addOnCompleteListener(task3 -> {
-                                            unit.setName(getStringFromSnapshot(task3, name));
-                                            updateLiveData(unitList);
-                                        });
-                            }
-                            //----------------------------------------------------------------------
-
-                            int position = idInListPosition(unitList.getValue(), id);
-                            if (position != -1) {
-                                Log.e(TAG, "position: "+position+" serial: " + unit.getSerial());
-//                                unitList.getValue().set(position, unit);//обновить, если такой юнит уже есть в списке
-                                list.set(position, unit);//обновить, если такой юнит уже есть в списке
-                            } else {
-
-                                list.add(unit);//а если нет, то добавить
-                            }
-                        }
-                        for (DUnit u:list) Log.e(TAG, ""+u.getSerial());
-                        unitList.setValue(list);
-                    } else {
-                        Log.e(TAG, "Error getting documents: ", task.getException());
-                    }
-                });
-    }
-
+    /**
+     * Если юнит с таким id уже есть в списке, то метод возвращает его позицию в списке, иначе возвращает -1
+     */
     private int idInListPosition(ArrayList<DUnit> list, String id) {
         if (list == null || list.size() == 0) return -1;
         for (int i = 0; i < list.size(); i++) {

@@ -23,6 +23,11 @@ public class MainActivity extends AppCompatActivity {
         ThemeUtils.onActivityCreateSetTheme(this);
         setContentView(R.layout.activity_main);
 
+        Log.e("TAG", "-------------------------------");
+        Log.e("TAG", "♣" + BuildConfig.APPLICATION_ID);
+        Log.e("TAG", "♣VERSION_NAME: " + BuildConfig.VERSION_NAME);
+        Log.e("TAG", "-------------------------------");
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, MainFragment.newInstance())

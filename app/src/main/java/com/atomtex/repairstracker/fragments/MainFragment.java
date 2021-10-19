@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,14 +106,11 @@ public class MainFragment extends Fragment {
     }
 
     private void updateFoundRecycler(ArrayList<DUnit> list) {
-        for (DUnit unit:list) {
-            Log.e("TAG", "updateFoundRecycler: "+unit.getSerial());
-        }
         mViewModel.updateUnitsTrackIdNumbersList();
         if (list == null) return;
         if (list.size() == 0) {
             logoImage.setVisibility(View.VISIBLE);
-//            Toast.makeText(getActivity(), getString(R.string.nothing_found), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.nothing_found), Toast.LENGTH_SHORT).show();
         } else {
             logoImage.setVisibility(View.GONE);
         }

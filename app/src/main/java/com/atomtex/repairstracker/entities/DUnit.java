@@ -1,8 +1,10 @@
 package com.atomtex.repairstracker.entities;
 
+import android.util.Log;
+
 import java.util.Date;
 
-public class DUnit {
+public class DUnit /*implements Comparable*/{
 
     //todo сейчас последнее событие сохраняется в юните, что не правильно, надо хранить все события
     // в событиях и только. При чтении юнита нужно загружать из коллекции событий последнее.
@@ -144,4 +146,15 @@ public class DUnit {
     public void setTrackId(String trackId) {
         this.trackId = trackId;
     }
+
+    /*@Override
+    public int compareTo(Object o) {
+        try {
+            int compareTrackId = Integer.parseInt(((DUnit) o).getTrackId());
+            return Integer.parseInt(this.getTrackId())-compareTrackId;
+        } catch (Exception e) {
+            Log.e("TAG", "ОШИБКА PARSE INT (compareTo)");
+            return 0;
+        }
+    }*/
 }
