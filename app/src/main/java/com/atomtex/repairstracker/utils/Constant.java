@@ -13,7 +13,7 @@ public class Constant {
     public static final String UNIT_STATE = "state_id";
     public static final String UNIT_TRACK_ID = "trackid";
 
-    public static final String TABLE_EVENTS = "events"; //в прошлом states
+    public static final String TABLE_EVENTS = "events";
     public static final String EVENT_DATE = "date";
     public static final String EVENT_LOCATION = "location_id";
     public static final String EVENT_STATE = "state_id";

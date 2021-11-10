@@ -7,7 +7,7 @@ public class DUnit{
     private String id; //"0001"
     private String name; //БДКГ-02
     private String serial; //132.002
-    private String state; //"На линейке"
+    private String state; //поверка, принят в ремонт и т.д.
     private String location;
     private Date date;
     private Date closeDate;

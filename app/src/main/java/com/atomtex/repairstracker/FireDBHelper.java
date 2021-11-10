@@ -78,7 +78,8 @@ class FireDBHelper {
 
         query.get()
                 .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
+                    if (task.isSuccessful()) //noinspection CommentedOutCode
+                    {
                         QuerySnapshot querySnapshot = task.getResult();
                         if (querySnapshot == null) return;
                         if (unitList == null) return;
@@ -131,14 +132,9 @@ class FireDBHelper {
                             } else list.add(unit);//а если нет, то добавить
                         }
 
-//                        list.sort(Comparator.comparing(DUnit::getTrackId));
-
-//                        Collections.sort(list, (o1, o2) -> o1.getTrackId().compareTo(o2.getTrackId()));
+                        //noinspection ComparatorCombinators
                         Collections.sort(list, (o1, o2) -> o1.getTrackId().compareTo(o2.getTrackId()));
-
-
-                        //list.sort((o1, o2) -> o1.getTrackId().compareTo(o2.getTrackId()));
-
+//                        list.sort((o1, o2) -> o1.getTrackId().compareTo(o2.getTrackId()));
 //                        Collections.sort(list);
 
                         unitList.setValue(list);

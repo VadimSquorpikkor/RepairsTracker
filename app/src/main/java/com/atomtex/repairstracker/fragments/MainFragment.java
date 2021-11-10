@@ -95,7 +95,6 @@ public class MainFragment extends Fragment {
     }
 
     private void refresh() {
-//        mViewModel.initializeObserveList();
         mViewModel.refresh();
     }
 

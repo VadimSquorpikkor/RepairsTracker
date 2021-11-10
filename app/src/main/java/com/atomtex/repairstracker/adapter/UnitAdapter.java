@@ -45,9 +45,6 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.DUnitViewHolde
         return new DUnitViewHolder(view);
     }
 
-    /**Принимает объект ViewHolder (holder) и порядковый номер элемента массива (position)
-    * т.е. у 1-ого элемента View будет порядковый номер 0, он возмёт элемент с этим индексом (заметку)
-    * и у ViewHolder-а установить все значения (присвоить значения к TextView) */
     @Override
     public void onBindViewHolder(@NonNull DUnitViewHolder holder, int position) {
         DUnit unit = units.get(position);
@@ -57,7 +54,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.DUnitViewHolde
         holder.tSerial.setText(String.format(App.getContext().getString(R.string.serial_number_prefix), Utils.getRightValue(unit.getSerial())));
         holder.tIsComplete.setVisibility(unit.isComplete()?View.VISIBLE:View.GONE);
         holder.tTrackId.setText(String.format("ID: %s", unit.getTrackId()));
-        holder.tLocation.setText(String.format(" — %s — ", unit.getLocation()));
+        holder.tLocation.setText(String.format(" - %s - ", unit.getLocation()));
 
         if (unit.getDate()!=null){
             holder.tDate.setText(getRightDateAndTime(unit.getDate().getTime()));

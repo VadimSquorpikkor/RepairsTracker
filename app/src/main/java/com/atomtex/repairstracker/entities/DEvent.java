@@ -9,6 +9,7 @@ public class DEvent {
     private String location;
     private String id;
 
+    /**Дата добавления события*/
     public Date getDate() {
         return date;
     }
@@ -17,6 +18,7 @@ public class DEvent {
         this.date = date;
     }
 
+    /**Статус устройства (На градуировке, поверка, принят в ремонт и т.д.)*/
     public String getState() {
         return state;
     }
@@ -25,6 +27,7 @@ public class DEvent {
         this.state = state;
     }
 
+    /**Где находится устройство (Участок РиР, Группа Сервиса и т.д.)*/
     public String getLocation() {
         return location;
     }
@@ -33,6 +36,7 @@ public class DEvent {
         this.location = location;
     }
 
+    /***/
     public String getId() {
         return id;
     }

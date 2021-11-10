@@ -28,6 +28,7 @@ public class Utils {
      * @param s параметр
      * @param text текст
      */
+    @SuppressWarnings("unused")
     public static String getRightValue(String s, String text) {
         boolean paramIsEmpty = isEmptyOrNull(s);
         boolean textIsEmpty = isEmptyOrNull(text);
@@ -48,6 +49,7 @@ public class Utils {
      * @param idList лист идентификаторов
      * @return id ("adj_r_diagnostica")
      */
+    @SuppressWarnings("unused")
     public static String getIdByName(String name, ArrayList<String> nameList, ArrayList<String> idList) {
         int position = nameList.indexOf(name);
         return idList.get(position);
@@ -59,6 +61,7 @@ public class Utils {
      * @param idList лист идентификаторов
      * @return name ("Диагностика")
      */
+    @SuppressWarnings("unused")
     public static String getNameById(String id, ArrayList<String> nameList, ArrayList<String> idList) {
         if (nameList==null||idList==null){
             Log.e("TAG", "☻ nameList==null||idList==null");
@@ -90,6 +93,7 @@ public class Utils {
         return formatter.format(time_stamp_server);
     }
 
+    @SuppressWarnings("unused")
     public static int daysPassed(Date startDate) {
         return daysPassed(startDate, new Date());
 
